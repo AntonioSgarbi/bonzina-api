@@ -34,8 +34,8 @@ public class Doctor {
 	public Doctor() {
 	}
 	
-	public Doctor(Integer id, String name, String phone, String email, Integer register, String speciality,
-			Clinic clinic, Period period) {
+	public Doctor(Integer id, String name, String phone, String email, 
+			Integer register, String speciality, Clinic clinic, Period period) {
 		
 		this.id = id;
 		this.name = name;

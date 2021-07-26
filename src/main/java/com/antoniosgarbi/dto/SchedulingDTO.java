@@ -3,8 +3,6 @@ package com.antoniosgarbi.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.antoniosgarbi.entities.Doctor;
-import com.antoniosgarbi.entities.Patient;
 import com.antoniosgarbi.entities.Scheduling;
 
 public class SchedulingDTO {
@@ -12,14 +10,14 @@ public class SchedulingDTO {
 	private Integer id;
 	private LocalDate date;
 	private LocalTime scheduled;
-	private Doctor doctor;
-	private Patient patient;
+	private DoctorDTO doctor;
+	private PatientDTO patient;
 
 	public SchedulingDTO() {
 	}
 	
 	public SchedulingDTO(Integer id, LocalDate date, 
-			LocalTime scheduled, Doctor doctor, Patient patient) {
+			LocalTime scheduled, DoctorDTO doctor, PatientDTO patient) {
 		
 		this.id = id;
 		this.date = date;
@@ -32,8 +30,8 @@ public class SchedulingDTO {
 		this.id = entity.getId();
 		this.date = entity.getDate();
 		this.scheduled = entity.getScheduled();
-		this.doctor = entity.getDoctor();
-		this.patient = entity.getPatient();
+		this.doctor = new DoctorDTO(entity.getDoctor());
+		this.patient = new PatientDTO(entity.getPatient());
 	}
 
 	public Integer getId() {
@@ -60,19 +58,19 @@ public class SchedulingDTO {
 		this.scheduled = scheduled;
 	}
 
-	public Doctor getDoctor() {
+	public DoctorDTO getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(Doctor doctor) {
+	public void setDoctor(DoctorDTO doctor) {
 		this.doctor = doctor;
 	}
 
-	public Patient getPatient() {
+	public PatientDTO getPatient() {
 		return patient;
 	}
 
-	public void setPatient(Patient patient) {
+	public void setPatient(PatientDTO patient) {
 		this.patient = patient;
 	}
 	

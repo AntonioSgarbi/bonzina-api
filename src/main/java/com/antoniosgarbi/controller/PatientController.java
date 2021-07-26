@@ -44,17 +44,12 @@ public class PatientController {
 	
 	@PostMapping(value = "/update")
 	public ResponseEntity<PatientDTO> update(@RequestBody PatientDTO dto) {
-		dto = service.update(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
-		
+		return ResponseEntity.ok().body(service.update(dto));
 	}
 	
 	@PutMapping(value = "/delete/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-		Boolean response = service.delete(id);
-		return ResponseEntity.ok().body(response);
+		return ResponseEntity.ok().body(service.delete(id));
 	}
 	
 }
