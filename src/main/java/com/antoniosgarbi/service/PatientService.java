@@ -25,11 +25,11 @@ public class PatientService {
 	}
 	
 	public PatientDTO update(PatientDTO dto) {
-		Patient entity = new Patient(dto.getId(), dto.getName(), dto.getPhone(),
+		Patient entity = new Patient(dto.getId() , dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
-		entity = repository.save(entity);
+		repository.update(dto.getName(), dto.getPhone(),
+				dto.getEmail(), dto.getAddress(), dto.getBirthdate(), dto.getId());
 		return new PatientDTO(entity);
-		
 	}
 	
 	public List<PatientDTO> findAll() {
