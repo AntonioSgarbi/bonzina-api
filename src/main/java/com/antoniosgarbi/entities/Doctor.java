@@ -3,13 +3,9 @@ package com.antoniosgarbi.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.antoniosgarbi.dto.DoctorDTO;
 import com.antoniosgarbi.entities.enums.Clinic;
 import com.antoniosgarbi.entities.enums.Period;
 
@@ -18,7 +14,7 @@ import com.antoniosgarbi.entities.enums.Period;
 public class Doctor {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private String name;
 	private String phone;
@@ -27,8 +23,13 @@ public class Doctor {
 	private String speciality;
 	private Clinic clinic;
 	private Period period;
-	
-	@OneToMany(mappedBy = "doctor")
+
+
+	@OneToMany(
+			mappedBy = "doctor",
+			cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
+			fetch = FetchType.EAGER
+	)
 	private List<Scheduling> schedulings = new ArrayList<>();
 	
 	public Doctor() {
@@ -45,6 +46,17 @@ public class Doctor {
 		this.speciality = speciality;
 		this.clinic = clinic;
 		this.period = period;
+	}
+
+	public Doctor(DoctorDTO dto) {
+		this.id = dto.getId();
+		this.name = dto.getName();
+		this.phone = dto.getPhone();
+		this.email = dto.getEmail();
+		this.register = dto.getRegister();
+		this.speciality = dto.getSpeciality();
+		this.clinic = dto.getClinic();
+		this.period = dto.getPeriod();
 	}
 
 	public Integer getId() {
