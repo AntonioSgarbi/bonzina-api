@@ -1,9 +1,8 @@
 package com.antoniosgarbi.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.antoniosgarbi.dto.PatientDTO;
@@ -32,14 +31,13 @@ public class PatientService {
 		return new PatientDTO(entity);
 	}
 	
-	public List<PatientDTO> findAll() {
-		List<Patient> list = repository.findAll();
-		return list.stream().
-				map(x -> new PatientDTO(x)).collect(Collectors.toList());
+	public Page<PatientDTO> findAll(Pageable pageable) {
+		Page<Patient> page = repository.findAll(pageable);
+		return page.map(PatientDTO::new);
 	}
 	
 	public Boolean delete(Integer id) {
-		Boolean returned = false;
+		boolean returned = false;
 		try {
 			repository.deleteById(id); 
 			returned = true;

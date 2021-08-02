@@ -19,14 +19,12 @@ public class DoctorDTO {
 	private Clinic clinic;
 	private Period period;
 	
-	private List<SchedulingDTO> schedulings = new ArrayList<>();
-	
 	public DoctorDTO() {
 	}
 
 	public DoctorDTO(Integer id, String name, String phone, 
 			String email, Integer register, String speciality,
-			Clinic clinic, Period period, List<SchedulingDTO> schedulings) {
+			Clinic clinic, Period period) {
 		
 		this.id = id;
 		this.name = name;
@@ -36,7 +34,6 @@ public class DoctorDTO {
 		this.speciality = speciality;
 		this.clinic = clinic;
 		this.period = period;
-		this.schedulings = schedulings;
 	}
 	
 	public DoctorDTO(Doctor entity) {
@@ -48,8 +45,6 @@ public class DoctorDTO {
 		this.speciality = entity.getSpeciality();
 		this.clinic = entity.getClinic();
 		this.period = entity.getPeriod();
-		this.schedulings = entity.getSchedulings().stream()
-				.map(x -> new SchedulingDTO(x)).collect(Collectors.toList());
 	}
 
 	public Integer getId() {
@@ -114,14 +109,6 @@ public class DoctorDTO {
 
 	public void setPeriod(Period period) {
 		this.period = period;
-	}
-
-	public List<SchedulingDTO> getSchedulings() {
-		return schedulings;
-	}
-
-	public void setSchedulings(List<SchedulingDTO> schedulings) {
-		this.schedulings = schedulings;
 	}
 		
 }

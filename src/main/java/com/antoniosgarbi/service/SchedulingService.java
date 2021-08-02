@@ -6,14 +6,20 @@ import com.antoniosgarbi.entities.Patient;
 import com.antoniosgarbi.entities.Scheduling;
 import com.antoniosgarbi.repository.SchedulingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SchedulingService {
 
     @Autowired
     private SchedulingRepository repository;
+
+    public Page<SchedulingDTO> findAll(Pageable pageable) {
+        Page<Scheduling> page = repository.findAll(pageable);
+        return page.map(SchedulingDTO::new);
+    }
 
     public SchedulingDTO insert(SchedulingDTO dto) {
         Scheduling entity =  new Scheduling(
@@ -35,7 +41,7 @@ public class SchedulingService {
     }
 
     public Boolean delete(Integer id) {
-        Boolean returned = false;
+        boolean returned = false;
         try {
             repository.deleteById(id);
             returned = true;
