@@ -1,9 +1,5 @@
 package com.antoniosgarbi.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.enums.Clinic;
 import com.antoniosgarbi.entities.enums.Period;
