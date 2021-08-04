@@ -35,6 +35,11 @@ public class PatientService {
 		Page<Patient> page = repository.findAll(pageable);
 		return page.map(PatientDTO::new);
 	}
+
+	public Page<PatientDTO> findByName(String name, Pageable pageable) {
+		Page<Patient> page = repository.findByNameContaining(name, pageable);
+		return page.map(PatientDTO::new);
+	}
 	
 	public Boolean delete(Integer id) {
 		boolean returned = false;

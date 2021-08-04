@@ -24,6 +24,11 @@ public class PatientController {
 		return ResponseEntity.ok(service.findAll(pageable));
 	}
 
+	@GetMapping(value = "/{name}")
+	public ResponseEntity<Page<PatientDTO>> findByName(@PathVariable String name, Pageable pageable) {
+		return ResponseEntity.ok(service.findByName(name, pageable));
+	}
+
 	@GetMapping(value = "/quantity")
 	public ResponseEntity<Long> count() {
 		return ResponseEntity.ok(service.count());
