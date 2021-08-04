@@ -5,8 +5,8 @@ public class BadRequestExceptionDetails extends ExceptionDetails {
         super(
                 "Bad Request Exception",
                 400,
-                "Check the Documentation",
-                null
+                details,
+                "Check the Documentation"
         );
     }
 }

@@ -1,7 +1,5 @@
 package com.antoniosgarbi.exception.details;
 
-import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDateTime;
 
 public abstract class ExceptionDetails {
