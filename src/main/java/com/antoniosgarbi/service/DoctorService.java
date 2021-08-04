@@ -3,7 +3,6 @@ package com.antoniosgarbi.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.antoniosgarbi.dto.DoctorDTO;
@@ -13,9 +12,12 @@ import com.antoniosgarbi.repository.DoctorRepository;
 @Service
 public class DoctorService {
 	
-	@Autowired
-	private DoctorRepository repository;
-	
+	private final DoctorRepository repository;
+
+	public DoctorService(DoctorRepository repository) {
+		this.repository = repository;
+	}
+
 	public DoctorDTO insert(DoctorDTO dto) {
 		Doctor entity = new Doctor(null, dto.getName(), dto.getPhone(), 
 				dto.getEmail(), dto.getRegister(), dto.getSpeciality(),

@@ -3,7 +3,6 @@ package com.antoniosgarbi.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,14 +14,17 @@ import com.antoniosgarbi.service.DoctorService;
 @RequestMapping(value = "/doctor")
 public class DoctorController {
 	
-	@Autowired
-	private DoctorService service;
-	
+	private final DoctorService service;
+
+	public DoctorController(DoctorService service) {
+		this.service = service;
+	}
+
 	@GetMapping
 	public ResponseEntity<List<DoctorDTO>> findAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
-	
+
 	@GetMapping(value = "/quantity")
 	public ResponseEntity<Long> count() {
 		return ResponseEntity.ok(service.count());

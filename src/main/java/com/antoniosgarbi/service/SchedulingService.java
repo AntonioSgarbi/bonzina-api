@@ -5,7 +5,6 @@ import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.Patient;
 import com.antoniosgarbi.entities.Scheduling;
 import com.antoniosgarbi.repository.SchedulingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchedulingService {
 
-    @Autowired
-    private SchedulingRepository repository;
+    private final SchedulingRepository repository;
+
+    public SchedulingService(SchedulingRepository repository) {
+        this.repository = repository;
+    }
 
     public Page<SchedulingDTO> findAll(Pageable pageable) {
         Page<Scheduling> page = repository.findAll(pageable);

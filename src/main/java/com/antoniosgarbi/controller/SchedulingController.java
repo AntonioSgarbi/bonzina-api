@@ -2,7 +2,6 @@ package com.antoniosgarbi.controller;
 
 import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.service.SchedulingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,11 @@ import java.net.URI;
 @RequestMapping(value ="/scheduling")
 public class SchedulingController {
 
-    @Autowired
-    private SchedulingService service;
+    private final SchedulingService service;
+
+    public SchedulingController(SchedulingService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<Page<SchedulingDTO>> findAll(Pageable pageable) {

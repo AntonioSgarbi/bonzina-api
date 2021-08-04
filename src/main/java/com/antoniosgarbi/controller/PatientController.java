@@ -2,7 +2,6 @@ package com.antoniosgarbi.controller;
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,12 @@ import com.antoniosgarbi.service.PatientService;
 @RequestMapping(value = "/patient")
 public class PatientController {
 	
-	@Autowired
-	private PatientService service;
-	
+	private final PatientService service;
+
+	public PatientController(PatientService service) {
+		this.service = service;
+	}
+
 	@GetMapping
 	public ResponseEntity<Page<PatientDTO>> findAll(Pageable pageable) {
 		return ResponseEntity.ok(service.findAll(pageable));

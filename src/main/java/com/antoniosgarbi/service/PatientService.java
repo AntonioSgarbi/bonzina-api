@@ -1,6 +1,5 @@
 package com.antoniosgarbi.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,12 @@ import com.antoniosgarbi.repository.PatientRepository;
 @Service
 public class PatientService {
 
-	@Autowired
-	private PatientRepository repository;
-	
+	private final PatientRepository repository;
+
+	public PatientService(PatientRepository repository) {
+		this.repository = repository;
+	}
+
 	public PatientDTO insert(PatientDTO dto) {
 		Patient entity = new Patient(null, dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
