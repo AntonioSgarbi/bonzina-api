@@ -1,25 +1,34 @@
 package com.antoniosgarbi.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_scheduling")
-public class Scheduling {
-	
+public class Scheduling implements Serializable {
+	private static final long serialVersionUID = -1579027048833977086L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+
+
+	@NotNull(message = "Uma data deve ser informada")
+	@Future(message = "O agendamento deve ocorrer pro futuro")
 	private LocalDate date;
+	@NotNull(message = "Um horário deve ser informado")
 	private LocalTime scheduled;
 	
-	@ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 	
-	@ManyToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
@@ -28,7 +37,6 @@ public class Scheduling {
 	
 	public Scheduling(Integer id, LocalDate date, 
 			LocalTime scheduled, Doctor doctor, Patient patient) {
-		super();
 		this.id = id;
 		this.date = date;
 		this.scheduled = scheduled;
@@ -100,5 +108,4 @@ public class Scheduling {
 			return false;
 		return true;
 	}
-	
 }

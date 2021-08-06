@@ -1,9 +1,12 @@
 package com.antoniosgarbi.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.antoniosgarbi.dto.DoctorDTO;
 import com.antoniosgarbi.entities.enums.Clinic;
@@ -11,25 +14,33 @@ import com.antoniosgarbi.entities.enums.Period;
 
 @Entity
 @Table(name = "tb_doctor")
-public class Doctor {
+public class Doctor implements Serializable {
+	private static final long serialVersionUID = 5322991030176876251L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+
+	@NotEmpty(message = "Um nome deve ser informado")
 	private String name;
+	@NotEmpty(message = "Um telefone deve ser informado")
 	private String phone;
+	@NotEmpty(message = "Um email deve ser informado")
 	private String email;
+	@NotNull(message = "O CRM deve ser informado")
 	private Integer register;
+	@NotEmpty(message = "A especialidade deve ser informada")
 	private String speciality;
+	@NotNull(message = "O consultório deve ser informado")
 	private Clinic clinic;
+	@NotNull(message = "O período deve ser informado")
 	private Period period;
 
 
 	@OneToMany(
 			mappedBy = "doctor",
 			cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER)
 	private List<Scheduling> schedulings = new ArrayList<>();
 	
 	public Doctor() {
@@ -125,10 +136,6 @@ public class Doctor {
 
 	public List<Scheduling> getSchedulings() {
 		return schedulings;
-	}
-
-	public void setSchedulings(List<Scheduling> schedulings) {
-		this.schedulings = schedulings;
 	}
 
 	@Override

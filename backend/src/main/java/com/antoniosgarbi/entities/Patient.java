@@ -2,30 +2,41 @@ package com.antoniosgarbi.entities;
 
 import com.antoniosgarbi.dto.PatientDTO;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "tb_patient")
-public class Patient {
+public class Patient implements Serializable {
+	private static final long serialVersionUID = 5719278450261503359L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+
+	@NotEmpty(message = "Um nome deve ser informado")
 	private String name;
+	@NotEmpty(message = "Um telefone deve ser informado")
 	private String phone;
+	@NotEmpty(message = "Um email deve ser informado")
 	private String email;
+	@NotEmpty(message = "Um endereço deve ser informmado")
 	private String address;
+	@NotNull(message = "A data de nascimento deve ser informada")
+	@Past(message = "A data de nascimento é inválida")
 	private LocalDate birthdate;
 	
 	@OneToMany(
 			mappedBy = "patient",
 			cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
-			fetch = FetchType.EAGER
-	)
+			fetch = FetchType.EAGER)
 	private List<Scheduling> schedulings = new ArrayList<>();
 
 	public Patient() {
@@ -100,10 +111,6 @@ public class Patient {
 
 	public List<Scheduling> getSchedulings() {
 		return schedulings;
-	}
-
-	public void setSchedulings(List<Scheduling> schedulings) {
-		this.schedulings = schedulings;
 	}
 
 	@Override
