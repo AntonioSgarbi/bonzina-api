@@ -3,6 +3,7 @@ package com.antoniosgarbi.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.antoniosgarbi.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import com.antoniosgarbi.dto.DoctorDTO;
@@ -43,15 +44,12 @@ public class DoctorService {
 		return new DoctorDTO(entity);
 	}
 	
-	public Boolean delete(Integer id) {
-		Boolean returned = false;
+	public void delete(Integer id) {
 		try {
 			repository.deleteById(id);
-			returned = true;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw new BadRequestException("Id can't be found");
 		}
-		return returned;
 	}
 	
 	public Long count() {

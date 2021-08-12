@@ -1,5 +1,6 @@
 package com.antoniosgarbi.handler;
 
+import com.antoniosgarbi.exception.BadRequestException;
 import com.antoniosgarbi.exception.details.BadRequestExceptionDetails;
 import com.antoniosgarbi.exception.details.NotFoundExceptionDetails;
 import com.antoniosgarbi.exception.details.RequestMethodNotSupportedExceptionDetails;
@@ -24,6 +25,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationExceptionDetails> handleValidationException(ConstraintViolationException cve) {
         ValidationExceptionDetails details = new ValidationExceptionDetails(cve.getMessage());
+        return ResponseEntity.badRequest().body(details);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException bre) {
+        BadRequestExceptionDetails details = new BadRequestExceptionDetails(bre.getMessage());
         return ResponseEntity.badRequest().body(details);
     }
 

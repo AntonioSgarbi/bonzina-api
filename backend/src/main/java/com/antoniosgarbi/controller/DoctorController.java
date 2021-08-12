@@ -3,6 +3,7 @@ package com.antoniosgarbi.controller;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,9 +44,9 @@ public class DoctorController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-		Boolean response = service.delete(id);
-		return ResponseEntity.ok().body(response);
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}	
 	
 }

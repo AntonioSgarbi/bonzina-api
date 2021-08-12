@@ -4,6 +4,7 @@ import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.Patient;
 import com.antoniosgarbi.entities.Scheduling;
+import com.antoniosgarbi.exception.BadRequestException;
 import com.antoniosgarbi.repository.SchedulingRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,15 +43,12 @@ public class SchedulingService {
         return new SchedulingDTO(entity);
     }
 
-    public Boolean delete(Integer id) {
-        boolean returned = false;
+    public void delete(Integer id) {
         try {
             repository.deleteById(id);
-            returned = true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new BadRequestException("Id can't be found");
         }
-        return returned;
     }
 
     public Long count() {

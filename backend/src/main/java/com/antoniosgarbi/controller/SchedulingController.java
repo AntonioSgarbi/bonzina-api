@@ -4,6 +4,7 @@ import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.service.SchedulingService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,7 +44,8 @@ public class SchedulingController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
-        return ResponseEntity.ok(service.delete(id));
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

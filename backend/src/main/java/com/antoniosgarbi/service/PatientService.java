@@ -1,5 +1,6 @@
 package com.antoniosgarbi.service;
 
+import com.antoniosgarbi.exception.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,15 +44,12 @@ public class PatientService {
 		return page.map(PatientDTO::new);
 	}
 	
-	public Boolean delete(Integer id) {
-		boolean returned = false;
+	public void delete(Integer id) {
 		try {
-			repository.deleteById(id); 
-			returned = true;
+			repository.deleteById(id);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw new BadRequestException("Id can't be found");
 		}
-		return returned;
 	}
 	
 	public Long count() {
