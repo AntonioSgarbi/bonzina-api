@@ -8,7 +8,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { title: 'Clinica Bonzina' }
   },
   {
     path: '/about',
@@ -39,14 +40,20 @@ const routes = [
   },
   {
     path: '/searchpatient',
-    name: 'PatientRegister',
+    name: 'PatientSearch',
     component: () => import('../views/PatientSearch.vue'),
     meta: { title: 'Procurar Paciente' }
   },
   {
     path: '/schedule',
-    name: 'Schedulo',
+    name: 'Schedule',
     component: () => import('../views/Schedule.vue'),
+    meta: { title: 'Consultas' }
+  },
+  {
+    path: '/registerschedule',
+    name: 'ScheduleRegister',
+    component: () => import('../components/ScheduleRegister.vue'),
     meta: { title: 'Agendar Consulta' }
   }
 ]

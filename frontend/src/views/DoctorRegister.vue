@@ -1,15 +1,20 @@
 <template>
   <div>
-    <b-form>
-      <h1>BUSCAR MEDICO</h1>
-    </b-form>
+    <h1>CADASTRAR MEDICO</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "DoctorSerch"
+  name: "DoctorRegister",
+  data() {
+    return {
+    }
+
+  }
+
 }
+
 </script>
 
 <style scoped>

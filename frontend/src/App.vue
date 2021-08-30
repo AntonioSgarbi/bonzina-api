@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <NavBar/>
+    <ScheduleRegister />
     <router-view/>
   </div>
 </template>
 <script>
-  import PatientTable from "@/components/PatientTable";
   import NavBar from '@/components/NavBar.vue'
+  import ScheduleRegister from "@/components/ScheduleRegister";
+
   export default {
     components: {
       NavBar,
-      PatientTable
+      ScheduleRegister,
     },
   }
 </script>
