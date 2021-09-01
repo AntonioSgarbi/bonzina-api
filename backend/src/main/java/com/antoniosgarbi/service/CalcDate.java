@@ -4,27 +4,27 @@ import java.time.LocalDate;
 import java.time.Year;
 
 public class CalcDate {
-    int dayOfWeek;
-    int dayOfMonth;
-    int month;
-    int year;
+    private int dayOfWeek;
+    private int dayOfMonth;
+    private int month;
+    private int year;
 
-    int daysPassedSinceWeekStarted;
-    int daysLeftToEndWeek;
-    int daysLeftToTheEndOfMonth;
-    int lastDayOfMonth;
+    private int daysPassedSinceWeekStarted;
+    private int daysLeftToEndWeek;
+    private int daysLeftToTheEndOfMonth;
+    private int lastDayOfMonth;
 
-    int dayWeekStarts;
-    int dayWeekEnds;
+    private int dayWeekStarts;
+    private int dayWeekEnds;
 
-    int monthWeekStarts;
-    int monthWeekEnds;
+    private int monthWeekStarts;
+    private int monthWeekEnds;
 
-    int yearWeekStarts;
-    int yearWeekEnds;
+    private int yearWeekStarts;
+    private int yearWeekEnds;
 
-    LocalDate dateWeekStarts;
-    LocalDate dateWeekEnds;
+    private LocalDate dateWeekStarts;
+    private LocalDate dateWeekEnds;
 
     public CalcDate(LocalDate date) {
 
