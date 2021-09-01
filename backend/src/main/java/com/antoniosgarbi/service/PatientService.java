@@ -23,7 +23,7 @@ public class PatientService {
 		Patient entity = new Patient(null, dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
 		entity = repository.save(entity);
-		return new PatientDTO(entity);
+		return new PatientDTO(entity, false);
 	}
 	
 	public PatientDTO update(PatientDTO dto) {
@@ -31,17 +31,17 @@ public class PatientService {
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
 		repository.update(dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate(), dto.getId());
-		return new PatientDTO(entity);
+		return new PatientDTO(entity, false);
 	}
 	
 	public Page<PatientDTO> findAll(Pageable pageable) {
 		Page<Patient> page = repository.findAll(pageable);
-		return page.map(PatientDTO::new);
+		return page.map(x -> new PatientDTO(x, true));
 	}
 
 	public Page<PatientDTO> findByName(String name, Pageable pageable) {
 		Page<Patient> page = repository.findByNameContaining(name, pageable);
-		return page.map(PatientDTO::new);
+		return page.map(x -> new PatientDTO(x, true));
 	}
 	
 	public void delete(Integer id) {

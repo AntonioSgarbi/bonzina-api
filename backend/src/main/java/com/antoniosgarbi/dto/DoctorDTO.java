@@ -4,6 +4,9 @@ import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.enums.Clinic;
 import com.antoniosgarbi.entities.enums.Period;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class DoctorDTO {
 	
 	private Integer id;
@@ -14,6 +17,7 @@ public class DoctorDTO {
 	private String speciality;
 	private Clinic clinic;
 	private Period period;
+	private List<SchedulingDTO> schedulings;
 	
 	public DoctorDTO() {
 	}
@@ -32,7 +36,7 @@ public class DoctorDTO {
 		this.period = period;
 	}
 	
-	public DoctorDTO(Doctor entity) {
+	public DoctorDTO(Doctor entity, boolean request) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.phone = entity.getPhone();
@@ -41,6 +45,11 @@ public class DoctorDTO {
 		this.speciality = entity.getSpeciality();
 		this.clinic = entity.getClinic();
 		this.period = entity.getPeriod();
+		if(request) {
+			this.schedulings = entity.getSchedulings().stream()
+					.map(x -> new SchedulingDTO(x, !request)).collect(Collectors.toList());
+		}
+
 	}
 
 	public Integer getId() {
@@ -106,5 +115,8 @@ public class DoctorDTO {
 	public void setPeriod(Period period) {
 		this.period = period;
 	}
-		
+
+	public List<SchedulingDTO> getSchedulings() {
+		return schedulings;
+	}
 }

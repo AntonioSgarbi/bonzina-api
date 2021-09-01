@@ -24,13 +24,13 @@ public class DoctorService {
 				dto.getEmail(), dto.getRegister(), dto.getSpeciality(),
 				dto.getClinic(), dto.getPeriod());
 		entity = repository.save(entity);
-		return new DoctorDTO(entity);
+		return new DoctorDTO(entity, false);
 	}
 	
 	public List<DoctorDTO> findAll() {
 		List<Doctor> list = repository.findAll();
 		return list.stream().
-				map(x -> new DoctorDTO(x)).collect(Collectors.toList());
+				map(x -> new DoctorDTO(x, true)).collect(Collectors.toList());
 		
 	}
 	
@@ -41,7 +41,7 @@ public class DoctorService {
 		repository.update(dto.getName(), dto.getPhone(), 
 				dto.getEmail(), dto.getRegister(), dto.getSpeciality(),
 				dto.getClinic(), dto.getPeriod(), dto.getId());
-		return new DoctorDTO(entity);
+		return new DoctorDTO(entity, false);
 	}
 	
 	public void delete(Integer id) {

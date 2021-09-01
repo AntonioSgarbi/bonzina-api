@@ -20,8 +20,9 @@ public class SchedulingService {
     }
 
     public Page<SchedulingDTO> findAll(Pageable pageable) {
-        Page<Scheduling> page = repository.findAll(pageable);
-        return page.map(SchedulingDTO::new);
+        Page<Scheduling> pageEntity = repository.findAll(pageable);
+        Page<SchedulingDTO> pageDTO = pageEntity.map(x -> new SchedulingDTO(x, true));
+        return pageDTO;
     }
 
     public SchedulingDTO insert(SchedulingDTO dto) {
@@ -29,7 +30,7 @@ public class SchedulingService {
                 null, dto.getDate(), dto.getScheduled(),
                 new Doctor(dto.getDoctor()), new Patient(dto.getPatient()));
         entity = repository.save(entity);
-        return new SchedulingDTO(entity);
+        return new SchedulingDTO(entity, true);
     }
 
     public SchedulingDTO update(SchedulingDTO dto) {
@@ -40,7 +41,7 @@ public class SchedulingService {
                 doctor, patient);
         repository.update(dto.getId(), dto.getDate(), dto.getScheduled(),
                 doctor, patient);
-        return new SchedulingDTO(entity);
+        return new SchedulingDTO(entity, true);
     }
 
     public void delete(Integer id) {

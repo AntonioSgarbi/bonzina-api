@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.antoniosgarbi.entities.Scheduling;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SchedulingDTO {
 
@@ -26,12 +27,14 @@ public class SchedulingDTO {
 		this.patient = patient;
 	}
 	
-	public SchedulingDTO(Scheduling entity) {
+	public SchedulingDTO(Scheduling entity, boolean request) {
 		this.id = entity.getId();
 		this.date = entity.getDate();
 		this.scheduled = entity.getScheduled();
-		this.doctor = new DoctorDTO(entity.getDoctor());
-		this.patient = new PatientDTO(entity.getPatient());
+		if(request) {
+			this.doctor = new DoctorDTO(entity.getDoctor(), !request);
+			this.patient = new PatientDTO(entity.getPatient(), !request);
+		}
 	}
 
 	public Integer getId() {

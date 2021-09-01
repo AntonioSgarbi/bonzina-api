@@ -1,6 +1,8 @@
 package com.antoniosgarbi.dto;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.antoniosgarbi.entities.Patient;
 
@@ -12,6 +14,8 @@ public class PatientDTO {
 	private String email;
 	private String address;
 	private LocalDate birthdate;
+
+	private List<SchedulingDTO> schedulings;
 
 	public PatientDTO() {
 	}
@@ -27,7 +31,7 @@ public class PatientDTO {
 		this.birthdate = birthdate;
 	}
 	
-	public PatientDTO(Patient entity) {
+	public PatientDTO(Patient entity, boolean request) {
 	
 		this.id = entity.getId();
 		this.name = entity.getName();
@@ -35,6 +39,10 @@ public class PatientDTO {
 		this.email = entity.getEmail();
 		this.address = entity.getAddress();
 		this.birthdate = entity.getBirthdate();
+		if(request) {
+			this.schedulings = entity.getSchedulings().stream()
+					.map(x -> new SchedulingDTO(x, !request)).collect(Collectors.toList());
+		}
 	}
 
 	public Integer getId() {
@@ -85,4 +93,7 @@ public class PatientDTO {
 		this.birthdate = birthdate;
 	}
 
+	public List<SchedulingDTO> getSchedulings() {
+		return schedulings;
+	}
 }
