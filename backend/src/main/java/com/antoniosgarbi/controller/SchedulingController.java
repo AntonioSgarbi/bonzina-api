@@ -1,5 +1,6 @@
 package com.antoniosgarbi.controller;
 
+import com.antoniosgarbi.dto.CounterScheduleDTO;
 import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.service.SchedulingService;
 import org.springframework.data.domain.Page;
@@ -47,5 +48,10 @@ public class SchedulingController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/quantitybydate")
+    public ResponseEntity<CounterScheduleDTO> countByDate() {
+        return ResponseEntity.ok(service.countTotal());
     }
 }

@@ -25,4 +25,12 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
             @Param("date") LocalDate date, @Param("scheduled") LocalTime scheduled,
             @Param("doctor") Doctor doctor, @Param("patient") Patient patient
     );
+
+    @Query(value = "SELECT COUNT(*) FROM tb_scheduling WHERE date BETWEEN :monthStart AND :monthEnd",
+            nativeQuery=true)
+    long countAllByDateBetween(
+            @Param("monthStart") LocalDate monthStart, @Param("monthEnd") LocalDate monthEnd
+    );
+
+    Long countAllByDate(LocalDate date);
 }
