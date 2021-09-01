@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import PersonTable from "@/components/PersonTable";
+import PersonTable from "./components/PersonTable";
 
 
 export default {
@@ -60,6 +60,7 @@ export default {
         'show_details'
       ],
       doctors: [
+          //lista de objetos pra teste
         {
           name: 'antonio',
           phone: '(48)99170-6401',

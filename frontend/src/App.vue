@@ -5,9 +5,10 @@
     <router-view/>
   </div>
 </template>
+
 <script>
-  import NavBar from '@/components/NavBar.vue'
-  import ScheduleRegister from "@/components/ScheduleRegister";
+  import NavBar from "./components/NavBar.vue";
+  import ScheduleRegister from "./components/ScheduleRegister";
 
   export default {
     components: {

@@ -18,7 +18,6 @@
           id="input-group-2"
           label="Endereço de Email:"
           label-for="input-2">
-        <!--    description="We'll never share your email with anyone else." -->
         <b-form-input
             id="input-2"
             v-model="form.email"
@@ -32,7 +31,6 @@
           id="input-group-3"
           label="Telefone:"
           label-for="input-3">
-        <!--    description="We'll never share your email with anyone else." -->
         <b-form-input
             id="input-3"
             v-model="form.phone"
@@ -46,7 +44,6 @@
           id="input-group-4"
           label="Endereço:"
           label-for="input-4">
-        <!--    description="We'll never share your email with anyone else." -->
         <b-form-input
             id="input-4"
             v-model="form.address"
@@ -60,7 +57,6 @@
           id="input-group-5"
           label="Data de Nascimento:"
           label-for="input-5">
-        <!--    description="We'll never share your email with anyone else." -->
         <b-form-input
             id="input-5"
             v-model="form.birthdate"
@@ -78,7 +74,7 @@
 </template>
 
 <script>
-import store from "@/vuex";
+import store from "./vuex";
 
 export default {
   name: "PatientRegister",
@@ -109,11 +105,11 @@ export default {
     onSubmit(event) {
       event.preventDefault()
       if (store.state.fromEdit) {
-        //post pra editar
+        //put pra editar
       } else {
         //post pra cadastrar
       }
-      alert(JSON.stringify(this.form))
+      alert(JSON.stringify(this.form)) //teste do formato de envio
     },
     onReset(event) {
       event.preventDefault()

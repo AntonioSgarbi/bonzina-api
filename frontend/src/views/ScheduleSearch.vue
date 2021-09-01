@@ -37,7 +37,7 @@
           hover
           stacked="md"
           id="my-table"
-          :items="schedulings"
+          :items="schedules"
           :fields="fields"
           :per-page="perPage"
           :current-page="currentPage">
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import store from "@/vuex";
+import store from "../vuex";
 import axios from "axios";
 
 export default {
@@ -66,8 +66,9 @@ export default {
 
   data() {
     return {
-      fieldDate: '2021-10-10',
+      fieldDate: '',
       fieldName: '',
+      schedules: [], //mudar pra page
       rows: 10,
       perPage: 20,
       currentPage: 1,
@@ -91,14 +92,14 @@ export default {
     }
   },
   created() {
-    this.schedulings = store.state.schedulings
+    this.schedules = store.state.schedules
   },
   methods: {
     async searchByName() {
-      store.state.schedulings = await axios.get('https://sds3-agsk.herokuapp.com/'+ this.fieldName);
+      store.state.schedulings = await axios.get('link da api'+ this.fieldName);
     },
     async searchByDate() {
-      store.state.schedulings = await axios.get('http://localhost:8081/scheduling/{{ fieldDate }}');
+      store.state.schedulings = await axios.get('link-api/scheduling/' + this.fieldDate);
     }
   }
 }

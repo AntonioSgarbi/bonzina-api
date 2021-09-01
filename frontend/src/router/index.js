@@ -46,8 +46,8 @@ const routes = [
   },
   {
     path: '/schedule',
-    name: 'Schedule',
-    component: () => import('../views/Schedule.vue'),
+    name: 'ScheduleSearch',
+    component: () => import('../views/ScheduleSearch.vue'),
     meta: { title: 'Consultas' }
   },
   {

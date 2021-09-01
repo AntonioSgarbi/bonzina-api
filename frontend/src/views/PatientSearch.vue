@@ -53,6 +53,7 @@ export default {
         'show_details'
       ],
       patients: [
+          //lista de testes
         {
           id: 1,
           name: 'searchPatientantonio',

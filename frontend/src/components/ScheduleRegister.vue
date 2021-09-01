@@ -5,8 +5,7 @@
         title="BootstrapVue"
         button-size="lg"
         @ok="submit"
-        @cancel="cancel"
-        @show="updateData">
+        @cancel="cancel">
 
       <template #modal-header="{ close }">
         <h3>Cadastrar Consulta</h3>
@@ -20,7 +19,11 @@
             </div>
             <div class="btnSwitch">
               <router-link to="/searchpatient">
-                <b-button variant="info" @click="hide()">{{ patientFilled ? 'Trocar' : 'Inserir' }}</b-button>
+                <b-button
+                    variant="info"
+                    @click="hide(), setFromPerson('fromPatient')">
+                  {{ patientFilled ? 'Trocar' : 'Inserir' }}
+                </b-button>
               </router-link>
             </div>
           </div>
@@ -30,17 +33,32 @@
             </div>
             <div class="btnSwitch">
               <router-link to="/searchdoctor">
-                <b-button variant="info" @click="hide()">{{ doctorFilled ? 'Trocar' : 'Inserir' }}</b-button>
+                <b-button
+                    variant="info"
+                    @click="hide(), setFromPerson('fromDoctor')">
+                  {{ doctorFilled ? 'Trocar' : 'Inserir' }}
+                </b-button>
               </router-link>
             </div>
           </div>
           <div class="div">
             <h2 class="labelpicker">Data: </h2>
-            <b-form-datepicker id="datepicker" size="sm" v-model="fieldDate" class="mb-2"></b-form-datepicker>
+            <b-form-datepicker
+                id="datepicker"
+                size="sm"
+                v-model="fieldDate"
+                locale="pt"
+                class="mb-2">
+            </b-form-datepicker>
           </div>
           <div class="div">
             <h2 class="labelpicker">Horário: </h2>
-            <b-form-timepicker id="timepicker" size="sm" v-model:id="fieldTime" locale="en" class="mb-2"></b-form-timepicker>
+            <b-form-timepicker
+                id="timepicker"
+                size="sm"
+                v-model:id="fieldTime"
+                locale="pt"
+                class="mb-2"></b-form-timepicker>
           </div>
         </b-form>
       </template>
@@ -53,7 +71,6 @@
         <b-button size="lg" variant="outline-danger" @click="cancel">
           Cancelar
         </b-button>
-        <!-- Button with custom close trigger value -->
         <b-button size="lg" variant="outline-secondary" @click="clean">
           Limpar
         </b-button>
@@ -64,7 +81,9 @@
 </template>
 
 <script>
-import store from "@/vuex";
+
+
+import store from "../vuex";
 
 export default {
   name: "ScheduleRegister",
@@ -75,53 +94,41 @@ export default {
   data() {
     return {
       patient: {
-        name:'nomeComponente'
+        name:'nomeComponente' //test
       },
       doctor: {
-        name: 'nomeComponente'
+        name: 'nomeComponente' //test
       },
       fieldDate: '',
       fieldTime: '',
-
     }
   },
   mounted() {
     this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
       this.patient = store.state.patient
       this.doctor = store.state.doctor
-      console.log('Modal is about to be shown', bvEvent, modalId)
+      console.log('evento show capturado e agindo') //test
     })
 
   },
-  computed() {
-    this.patient = store.state.patient
-    this.doctor = store.state.doctor
-    console.log('computado')
-  },
   methods: {
     submit() {
-      console.log('submit')
-      alert('submited')
+      console.log('submit' + this.fieldDate +' ' + this.fieldTime)
+      //regra de negocio insert schedule na api
     },
     cancel() {
       console.log('cancel')
-      alert('canceled')
     },
     clean() {
-      this.patient = {}
-      this.doctor = {}
       this.fieldDate = ''
       this.fieldTime = ''
-      this.patientFilled = false
       store.state.patient = {}
       store.state.doctor = {}
       console.log('limpo')
     },
-    updateData() {
-      this.patient = store.state.patient
-      this.doctor = store.state.doctor
-      console.log('trocado')
-    }
+    setFromPerson(person) {
+      store.state.fromPerson = person
+    },
   }
 }
 </script>

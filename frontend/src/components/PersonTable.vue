@@ -1,11 +1,5 @@
 <template>
   <div>
-
-    <p>
-      Selected Rows:<br>
-      {{ selected }}
-    </p>
-
     <b-table
         hover
         :items="items"
@@ -31,40 +25,69 @@
         </b-card>
       </template>
     </b-table>
+    <div id="pagination">
+      <b-pagination
+          v-model="currentPage"
+          pills
+          :total-rows="rows"
+          aria-controls="my-table"
+          first-number
+          last-number
+          variant="dark">
+      </b-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import store from "@/vuex";
+import store from "../vuex";
 
 export default {
   name: "PersonTable",
-  emits: [],
   props: {
     fields: [],
     items: [],
-    editRoute: ''
   },
   data() {
     return {
-      selected: []
+      editRoute: '',
+      currentPage: 0,
+      rows: 10
     }
-  },
-  created() {
   },
   methods: {
     toSchedule(item) {
-      store.state.patient = item
-      cd 
+      if(store.state.fromPerson === 'fromPatient'){
+        store.state.patient = item
+      } else { //fromDoctor
+        store.state.doctor = item
+      }
       console.log('item ' + item) //test
     },
     toEdit(item) {
-      console.log(item) //test
       store.state.fromEdit = true
-      store.state.patient = item
+      if(store.state.fromPerson === 'fromPatient') {
+        store.state.patient = item
+        this.editRoute = 'registerpatient'
+      }
+      else { //fromDoctor
+        store.state.doctor = item
+        this.editRoute = 'registerdoctor'
+      }
+      console.log(item) //test
     }
   }
 }
 </script>
+
+<style scoped>
+  #pagination {
+    margin: 1% 0%;
+    padding-top: 1%;
+    border: solid black;
+    display: flex;
+    justify-content: center;
+  }
+</style>
 
 export default PersonTable
