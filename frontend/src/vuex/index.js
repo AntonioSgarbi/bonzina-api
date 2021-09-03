@@ -6,13 +6,68 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        schedules: [],
+
+        schedulingPages: {
+            "content": [
+                {
+                    id: 0,
+                    date: "",
+                    scheduled: "",
+                    doctor: {
+                        id: 0,
+                        name: "",
+                        phone: "",
+                        email: "",
+                        register: 0,
+                        speciality: "",
+                        clinic: "",
+                        period: "",
+                        schedulings: null
+                    },
+                    patient: {
+                        id: 0,
+                        name: "",
+                        phone: "",
+                        email: "",
+                        address: "",
+                        birthdate: "",
+                        schedulings: null
+                    }
+                }],
+            pageable: {
+                sort: {
+                    sorted: false,
+                    unsorted: true,
+                    empty: true
+                },
+                pageNumber: 0,
+                pageSize: 0,
+                offset: 0,
+                paged: true,
+                unpaged: false
+            },
+            last: true,
+            totalPages: 0,
+            totalElements: 0,
+            first: true,
+            size: 0,
+            number: 0,
+            sort: {
+                sorted: false,
+                unsorted: true,
+                empty: true
+            },
+            numberOfElements: 8,
+            empty: false
+        },
+
         patients: [],
         doctors: [],
         patient: {name: 'vazioVuex'},
         doctor: {name: 'vazioVuex'},
         fromEdit: false,
-        fromPerson: '' //'fromPatient' || 'fromDoctor'
+        fromPerson: '' //'fromPatient' || 'fromDoctor',
+
     },
     mutations: {
     }
