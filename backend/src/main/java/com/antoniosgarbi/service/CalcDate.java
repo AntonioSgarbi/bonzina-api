@@ -4,18 +4,22 @@ import java.time.LocalDate;
 import java.time.Year;
 
 public class CalcDate {
-    private int dayOfWeek;
-    private int dayOfMonth;
+
+    private final LocalDate date;
+
+    private final int dayOfWeek;
+    private final int dayOfMonth;
     private int month;
     private int year;
 
     private int daysPassedSinceWeekStarted;
     private int daysLeftToEndWeek;
-    private int daysLeftToTheEndOfMonth;
-    private int lastDayOfMonth;
 
-    private int dayWeekStarts;
-    private int dayWeekEnds;
+    private final int daysLeftToTheEndOfMonth;
+    private final int lastDayOfMonth;
+
+    private final int dayWeekStarts;
+    private final int dayWeekEnds;
 
     private int monthWeekStarts;
     private int monthWeekEnds;
@@ -23,10 +27,12 @@ public class CalcDate {
     private int yearWeekStarts;
     private int yearWeekEnds;
 
-    private LocalDate dateWeekStarts;
-    private LocalDate dateWeekEnds;
+    private final LocalDate dateWeekStarts;
+    private final LocalDate dateWeekEnds;
 
     public CalcDate(LocalDate date) {
+
+        this.date = date;
 
         month = date.getMonth().getValue();
         year = date.getYear();
@@ -36,7 +42,7 @@ public class CalcDate {
 
         daysLeftToTheEndOfMonth = lastDayOfMonth - dayOfMonth;
 
-        setDaysPassedFromStartsAndLeftToEnd(dayOfWeek);
+        setDaysPassedFromMondayAndLeftToSaturday(dayOfWeek);
 
         monthWeekStarts = month;
         monthWeekEnds = month;
@@ -93,7 +99,7 @@ public class CalcDate {
         return lastDayOfMonth;
     }
 
-    private void setDaysPassedFromStartsAndLeftToEnd(int dayOfWeek) {
+    private void setDaysPassedFromMondayAndLeftToSaturday(int dayOfWeek) {
         switch (dayOfWeek) {
             case 1 : //DayOfWeek.ENUM starts at monday with 1
                 daysPassedSinceWeekStarted = 1;
@@ -124,6 +130,10 @@ public class CalcDate {
                 daysLeftToEndWeek = 6;
                 break;
         }
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public LocalDate getDateWeekStarts() {
