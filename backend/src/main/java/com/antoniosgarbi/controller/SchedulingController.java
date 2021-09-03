@@ -27,6 +27,31 @@ public class SchedulingController {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 
+    @GetMapping(value = "/bypatient/{name}")
+    public ResponseEntity<Page<SchedulingDTO>> findByPatientName(@PathVariable String name, Pageable pageable) {
+        return ResponseEntity.ok(service.findByPatientName(name, pageable));
+    }
+
+    @GetMapping(value = "/bydate/{dateString}")
+    public ResponseEntity<Page<SchedulingDTO>> findByDateBetween(@PathVariable String dateString, Pageable pageable) {
+        return ResponseEntity.ok(service.findByDate(dateString, pageable));
+    }
+
+    @GetMapping(value = "/bydate/today")
+    public ResponseEntity<Page<SchedulingDTO>> findByDateToday(Pageable pageable) {
+        return ResponseEntity.ok(service.findByDateToday(pageable));
+    }
+
+    @GetMapping(value = "/bydate/week")
+    public ResponseEntity<Page<SchedulingDTO>> findByDateWeek(Pageable pageable) {
+        return ResponseEntity.ok(service.findByDateThisWeek(pageable));
+    }
+
+    @GetMapping(value = "/bydate/month")
+    public ResponseEntity<Page<SchedulingDTO>> findByDateMonth(Pageable pageable) {
+        return ResponseEntity.ok(service.findByDateThisMonth(pageable));
+    }
+
     @GetMapping(value = "/quantity")
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(service.count());

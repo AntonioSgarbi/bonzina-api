@@ -3,6 +3,8 @@ package com.antoniosgarbi.repository;
 import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.Patient;
 import com.antoniosgarbi.entities.Scheduling;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +17,12 @@ import java.time.LocalTime;
 
 @Repository
 public interface SchedulingRepository extends JpaRepository<Scheduling, Integer> {
+
+    Long countAllByDate(LocalDate date);
+
+    Page<Scheduling> findAllByDate(LocalDate date, Pageable pageable);
+
+    Page<Scheduling> findAllByPatientNameContaining(String patient, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
     @Transactional
@@ -32,5 +40,13 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
             @Param("monthStart") LocalDate monthStart, @Param("monthEnd") LocalDate monthEnd
     );
 
-    Long countAllByDate(LocalDate date);
+    @Query(value = "SELECT * FROM tb_scheduling WHERE date BETWEEN ?1 AND ?2 ORDER BY ?#{#pageable}",
+            countQuery = "SELECT count(*) FROM tb_scheduling WHERE date BETWEEN ?1 AND ?2",
+            nativeQuery = true)
+    Page<Scheduling> findByDateBetween(
+            LocalDate dateStart, LocalDate dateEnd, Pageable pageable
+    );
+
+
+
 }
