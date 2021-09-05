@@ -22,6 +22,9 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
 
     Page<Scheduling> findAllByDate(LocalDate date, Pageable pageable);
 
+    Page<Scheduling> findAllByDateGreaterThanEqualAndDateLessThanEqual(
+            LocalDate startDate, LocalDate endDate, Pageable pageable);
+
     Page<Scheduling> findAllByPatientNameContaining(String patient, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
@@ -39,14 +42,5 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
     long countAllByDateBetween(
             @Param("monthStart") LocalDate monthStart, @Param("monthEnd") LocalDate monthEnd
     );
-
-    @Query(value = "SELECT * FROM tb_scheduling WHERE date BETWEEN ?1 AND ?2 ORDER BY ?#{#pageable}",
-            countQuery = "SELECT count(*) FROM tb_scheduling WHERE date BETWEEN ?1 AND ?2",
-            nativeQuery = true)
-    Page<Scheduling> findByDateBetween(
-            LocalDate dateStart, LocalDate dateEnd, Pageable pageable
-    );
-
-
 
 }

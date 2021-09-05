@@ -52,7 +52,7 @@ public class SchedulingService {
     public Page<SchedulingDTO> findByDateThisWeek(Pageable pageable) {
         CalcDate date = getCalcDate();
         Page<Scheduling> pageEntity = repository
-                .findByDateBetween(
+                .findAllByDateGreaterThanEqualAndDateLessThanEqual(
                         date.getDateWeekStarts(),
                         date.getDateWeekEnds(),
                         pageable
@@ -64,7 +64,7 @@ public class SchedulingService {
     public Page<SchedulingDTO> findByDateThisMonth(Pageable pageable) {
         CalcDate date = getCalcDate();
         Page<Scheduling> pageEntity = repository
-                .findByDateBetween(
+                .findAllByDateGreaterThanEqualAndDateLessThanEqual(
                         LocalDate.of(date.getYear(), date.getMonth(), 1),
                         LocalDate.of(date.getYear(), date.getMonth(), date.getLastDayOfMonth()),
                         pageable
