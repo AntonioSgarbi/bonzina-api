@@ -7,8 +7,13 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
 
+        counterSchedule: {
+            fromDay: 0,
+            fromWeek: 0,
+            fromMonth: 0
+        },
         schedulingPages: {
-            "content": [
+            content: [
                 {
                     id: 0,
                     date: "",
@@ -60,14 +65,16 @@ const store = new Vuex.Store({
             numberOfElements: 8,
             empty: false
         },
+        schedulingQuantity: 0,
+        scheduleServiceMethod: "",
 
-        patients: [],
-        doctors: [],
+        patientPage: [],
+        patientQuantity: 0,
+        doctorPage: [],
         patient: {name: 'vazioVuex'},
         doctor: {name: 'vazioVuex'},
         fromEdit: false,
-        fromPerson: '' //'fromPatient' || 'fromDoctor',
-
+        fromPerson: '', //'fromPatient' || 'fromDoctor'
     },
     mutations: {
     }
