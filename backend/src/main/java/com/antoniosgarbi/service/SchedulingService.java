@@ -1,6 +1,6 @@
 package com.antoniosgarbi.service;
 
-import com.antoniosgarbi.dto.CounterScheduleDTO;
+import com.antoniosgarbi.dto.SchedulingCounter;
 import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.entities.Patient;
@@ -10,6 +10,7 @@ import com.antoniosgarbi.repository.SchedulingRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -29,7 +30,7 @@ public class SchedulingService {
     }
 
     public Page<SchedulingDTO> findByPatientName(String name, Pageable pageable) {
-        Page<Scheduling> pageEntity = repository.findAllByPatientNameContaining(name, pageable);
+        Page<Scheduling> pageEntity = repository.findAllByPatientNameContainingIgnoreCase(name, pageable);
         return pageEntity.map(x -> new SchedulingDTO(x, true));
     }
 
@@ -73,6 +74,7 @@ public class SchedulingService {
                 .map(x -> new SchedulingDTO(x, true));
     }
 
+    @Transactional
     public SchedulingDTO insert(SchedulingDTO dto) {
         Scheduling entity =  new Scheduling(
                 null,
@@ -85,6 +87,7 @@ public class SchedulingService {
         return new SchedulingDTO(entity, true);
     }
 
+    @Transactional
     public SchedulingDTO update(SchedulingDTO dto) {
         Doctor doctor =  new Doctor(dto.getDoctor());
         Patient patient = new Patient(dto.getPatient());
@@ -105,6 +108,7 @@ public class SchedulingService {
         return new SchedulingDTO(entity, true);
     }
 
+    @Transactional
     public void delete(Integer id) {
         try {
             repository.deleteById(id);
@@ -117,14 +121,14 @@ public class SchedulingService {
         return repository.count();
     }
 
-    public CounterScheduleDTO countTotal() {
+    public SchedulingCounter countTotal() {
         CalcDate date = getCalcDate();
         Long fromDay = repository.countAllByDate(date.getDate());
         Long fromWeek = repository.countAllByDateBetween(date.getDateWeekStarts(), date.getDateWeekEnds());
         Long fromMonth = repository.countAllByDateBetween(
                 LocalDate.of(date.getYear(), date.getMonth(), 1),
                 LocalDate.of(date.getYear(), date.getMonth(), date.getLastDayOfMonth()));
-        return new CounterScheduleDTO(fromDay, fromWeek, fromMonth);
+        return new SchedulingCounter(fromDay, fromWeek, fromMonth);
     }
 
     private CalcDate getCalcDate() {

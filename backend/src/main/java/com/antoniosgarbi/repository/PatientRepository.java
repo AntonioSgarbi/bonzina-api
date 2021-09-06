@@ -27,6 +27,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
 			@Param("birthdate") LocalDate birthdate,  @Param("id") Integer id
 			);
 
-	Page<Patient> findByNameContaining(String name, Pageable pageable);
+	Page<Patient> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
 }

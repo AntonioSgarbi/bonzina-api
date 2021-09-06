@@ -25,7 +25,7 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
     Page<Scheduling> findAllByDateGreaterThanEqualAndDateLessThanEqual(
             LocalDate startDate, LocalDate endDate, Pageable pageable);
 
-    Page<Scheduling> findAllByPatientNameContaining(String patient, Pageable pageable);
+    Page<Scheduling> findAllByPatientNameContainingIgnoreCase(String patient, Pageable pageable);
 
     @Modifying(clearAutomatically = true)
     @Transactional
