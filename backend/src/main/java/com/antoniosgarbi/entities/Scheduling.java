@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,10 +19,10 @@ public class Scheduling implements Serializable {
 	private Integer id;
 
 
-	@NotNull(message = "Uma data deve ser informada")
-	@Future(message = "O agendamento deve ocorrer pro futuro")
+	@NotNull(message = "The date must be informed")
+	@FutureOrPresent(message = "It is not possible to schedule for previous dates")
 	private LocalDate date;
-	@NotNull(message = "Um horário deve ser informado")
+	@NotNull(message = "The time must be informed")
 	private LocalTime scheduled;
 	
 	@ManyToOne(cascade = CascadeType.REFRESH)

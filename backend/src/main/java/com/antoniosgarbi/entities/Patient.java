@@ -21,16 +21,16 @@ public class Patient implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@NotEmpty(message = "Um nome deve ser informado")
+	@NotEmpty(message = "The name must be informed")
 	private String name;
-	@NotEmpty(message = "Um telefone deve ser informado")
+	@NotEmpty(message = "The phone must be informed")
 	private String phone;
-	@NotEmpty(message = "Um email deve ser informado")
+	@NotEmpty(message = "The email must be informed")
 	private String email;
-	@NotEmpty(message = "Um endereço deve ser informmado")
+	@NotEmpty(message = "The address must be informed")
 	private String address;
-	@NotNull(message = "A data de nascimento deve ser informada")
-	@Past(message = "A data de nascimento é inválida")
+	@NotNull(message = "The birthdate must be informed")
+	@Past(message = "The birthdate must be in the past")
 	private LocalDate birthdate;
 	
 	@OneToMany(

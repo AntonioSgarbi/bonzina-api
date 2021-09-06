@@ -1,6 +1,6 @@
 package com.antoniosgarbi.controller;
 
-import com.antoniosgarbi.dto.CounterScheduleDTO;
+import com.antoniosgarbi.dto.SchedulingCounter;
 import com.antoniosgarbi.dto.SchedulingDTO;
 import com.antoniosgarbi.service.SchedulingService;
 import org.springframework.data.domain.Page;
@@ -76,7 +76,7 @@ public class SchedulingController {
     }
 
     @GetMapping(value = "/quantitybydate")
-    public ResponseEntity<CounterScheduleDTO> countByDate() {
+    public ResponseEntity<SchedulingCounter> countByDate() {
         return ResponseEntity.ok(service.countTotal());
     }
 }

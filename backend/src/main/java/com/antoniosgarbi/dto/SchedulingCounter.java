@@ -1,15 +1,15 @@
 package com.antoniosgarbi.dto;
 
-public class CounterScheduleDTO {
+public class SchedulingCounter {
 
     private Long fromDay;
     private Long fromWeek;
     private Long fromMonth;
 
-    public CounterScheduleDTO(){
+    public SchedulingCounter(){
     }
 
-    public CounterScheduleDTO(Long fromDay, Long fromWeek, Long fromMonth){
+    public SchedulingCounter(Long fromDay, Long fromWeek, Long fromMonth){
         this.fromDay = fromDay;
         this.fromWeek = fromWeek;
         this.fromMonth = fromMonth;

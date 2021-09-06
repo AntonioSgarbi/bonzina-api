@@ -5,8 +5,8 @@ public class RequestMethodNotSupportedExceptionDetails extends ExceptionDetails 
         super(
                 "Method not allowed Exception",
                 405,
-                "Check the Documentation and try another path or method",
-                null
+                "The path you are trying to access does not allow this method",
+                "Check the Documentation and try another path or method"
         );
     }
 }

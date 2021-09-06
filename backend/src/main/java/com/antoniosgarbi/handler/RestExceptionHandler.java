@@ -24,7 +24,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationExceptionDetails> handleValidationException(ConstraintViolationException cve) {
-        ValidationExceptionDetails details = new ValidationExceptionDetails(cve.getMessage());
+        ValidationExceptionDetails details = new ValidationExceptionDetails(cve.getConstraintViolations().toString());
         return ResponseEntity.badRequest().body(details);
     }
 

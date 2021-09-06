@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.antoniosgarbi.dto.DoctorDTO;
 import com.antoniosgarbi.entities.Doctor;
 import com.antoniosgarbi.repository.DoctorRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DoctorService {
@@ -19,6 +20,7 @@ public class DoctorService {
 		this.repository = repository;
 	}
 
+	@Transactional
 	public DoctorDTO insert(DoctorDTO dto) {
 		Doctor entity = new Doctor(null, dto.getName(), dto.getPhone(), 
 				dto.getEmail(), dto.getRegister(), dto.getSpeciality(),
@@ -33,7 +35,8 @@ public class DoctorService {
 				map(x -> new DoctorDTO(x, true)).collect(Collectors.toList());
 		
 	}
-	
+
+	@Transactional
 	public DoctorDTO update(DoctorDTO dto) {
 		Doctor entity = new Doctor(dto.getId(), dto.getName(), dto.getPhone(), 
 				dto.getEmail(), dto.getRegister(), dto.getSpeciality(),
@@ -43,7 +46,8 @@ public class DoctorService {
 				dto.getClinic(), dto.getPeriod(), dto.getId());
 		return new DoctorDTO(entity, false);
 	}
-	
+
+	@Transactional
 	public void delete(Integer id) {
 		try {
 			repository.deleteById(id);

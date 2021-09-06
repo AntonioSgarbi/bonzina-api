@@ -5,8 +5,8 @@ public class NotFoundExceptionDetails extends ExceptionDetails {
         super(
                 "NotFound Exception",
                 404,
-                details,
-                "You are requesting an invalid path"
+                "You are requesting an invalid path",
+                "Check the Documentation and try another path"
         );
     }
 

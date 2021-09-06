@@ -21,19 +21,19 @@ public class Doctor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@NotEmpty(message = "Um nome deve ser informado")
+	@NotEmpty(message = "The name must be informed")
 	private String name;
-	@NotEmpty(message = "Um telefone deve ser informado")
+	@NotEmpty(message = "The phone must be informed")
 	private String phone;
-	@NotEmpty(message = "Um email deve ser informado")
+	@NotEmpty(message = "The email must be informed")
 	private String email;
-	@NotNull(message = "O CRM deve ser informado")
+	@NotNull(message = "The register must be informed")
 	private Integer register;
-	@NotEmpty(message = "A especialidade deve ser informada")
+	@NotEmpty(message = "The speciality must be informed")
 	private String speciality;
-	@NotNull(message = "O consultório deve ser informado")
+	@NotNull(message = "The clinic must be informed")
 	private Clinic clinic;
-	@NotNull(message = "O período deve ser informado")
+	@NotNull(message = "The period must be informed")
 	private Period period;
 
 
