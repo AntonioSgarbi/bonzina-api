@@ -1,7 +1,7 @@
 <template>
   <div id="frame">
     <div id="buttondiv">
-    <b-button v-b-modal.modal id="newSchedule" variant="success">Agendar Consulta</b-button>
+      <b-button v-b-modal.modal id="newSchedule" variant="success">Agendar Consulta</b-button>
     </div>
     <div id="searchItems">
       <div id="datepicker" class="geralInput">
@@ -12,54 +12,74 @@
               menu-class="w-100"
               calendar-width="100%"
           ></b-form-datepicker>
-          <b-button @click="searchByDate" class="inputbutton" variant="info" text-center>Pesquisar</b-button>
+          <b-button
+              @click="searchByDate"
+              class="inputbutton"
+              variant="info"
+              text-center>Pesquisar
+          </b-button>
         </b-form>
-        <p>Value: '{{ fieldDate }}'</p>
       </div>
 
       <div id="name" class="geralInput">
-        <b-form inline>
+        <b-form inline @submit="searchByName">
           <b-form-input
               class="inputfield"
               v-model="fieldName"
-              placeholder="Buscar por paciente">
-          </b-form-input>
-          <b-button @click="searchByName" class="inputbutton" variant="info" text-wrap>Pesquisar</b-button>
+              placeholder="Buscar por paciente"
+          ></b-form-input>
+          <b-button
+              @click="searchByName"
+              class="inputbutton"
+              variant="info"
+              text-wrap>Pesquisar
+          </b-button>
         </b-form>
-        <div class="mt-2">Value: {{ fieldName }}</div>
       </div>
     </div>
 
+    <div id="spinner">
+      <b-spinner v-show="isScheduleTableLoading" style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
+    </div>
+
     <div id="table">
+      <h1 v-show="schedulingPage.empty && !isScheduleTableLoading">
+        lista vazia
+      </h1>
       <b-table
+          v-show="!schedulingPage.empty && !isScheduleTableLoading"
+          ref="tableschedule"
           bordered
           small
           hover
+          responsive="sm"
           stacked="md"
-          id="my-table"
-          :items="schedules"
+          id="table"
+          :items="schedulingPage.content"
           :fields="fields"
-          :per-page="perPage"
-          :current-page="currentPage">
+          :per-page="schedulingPage.numberOfElements"
+      >
       </b-table>
     </div>
-    <div id="pagination">
-    <b-pagination
-      v-model="currentPage"
-      pills
-      :total-rows="rows"
-      aria-controls="my-table"
-      first-number
-      last-number
-      variant="dark">
-    </b-pagination>
+    <div id="pagination" v-show="!schedulingPage.empty">
+      <b-pagination
+          pills
+          @change="handlePageChange"
+          v-model="pageComponent"
+          :total-rows="schedulingPage.totalElements"
+          :number-of-pages="schedulingPage.totalPages"
+          aria-controls="my-table"
+          first-number
+          last-number
+          variant="dark">
+      </b-pagination>
     </div>
   </div>
 </template>
 
 <script>
-import store from "../vuex";
-import axios from "axios";
+import ScheduleService from "../services/ScheduleService";
+import {mapState} from "vuex";
 
 export default {
   name: "Schedule",
@@ -68,10 +88,8 @@ export default {
     return {
       fieldDate: '',
       fieldName: '',
-      schedules: [], //mudar pra page
-      rows: 10,
-      perPage: 20,
-      currentPage: 1,
+      pageComponent: 1,
+      page: 0,
       fields: [
         {
           key: 'date',
@@ -91,100 +109,131 @@ export default {
       ],
     }
   },
-  created() {
-    this.schedules = store.state.schedules
-  },
+
+  computed:
+      mapState(['schedulingPage', 'isScheduleTableLoading']),
+
   methods: {
-    async searchByName() {
-      store.state.schedulings = await axios.get('link da api'+ this.fieldName);
+    searchByName(event) {
+      event.preventDefault()
+      ScheduleService.findByPatientName(this.fieldName)
     },
-    async searchByDate() {
-      store.state.schedulings = await axios.get('link-api/scheduling/' + this.fieldDate);
-    }
+
+    searchByDate() {
+      ScheduleService.findByDate(this.fieldDate)
+    },
+
+    handlePageChange(value) {
+      this.pageComponent = value
+      let objectParam ={ page: this.pageComponent - 1}
+      this.activeMethod(objectParam)
+    },
+
+    activeMethod(params) {
+      if(this.$store.state.scheduleServiceMethod === 'findByDate') {
+        ScheduleService.findByDate(this.fieldDate, params)
+      }
+      else if (this.$store.state.scheduleServiceMethod === 'findByPatientName') {
+        ScheduleService.findByPatientName(this.fieldName, params)
+      }
+      else if (this.$store.state.scheduleServiceMethod === 'findByDateToday') {
+        ScheduleService.findByDateToday(params)
+      }
+      else if (this.$store.state.scheduleServiceMethod === 'findByDateWeek') {
+        ScheduleService.findByDateWeek(params)
+      }
+      else {
+        ScheduleService.findByDateMonth(params)
+      }
+    },
+
   }
 }
 </script>
 
 <style scoped>
 
-  #frame {
-    border: solid darkred;
+#frame {
+}
+
+#buttondiv {
+  display: grid;
+  margin: 0.5% 1%;
+  justify-content: end;
+
+}
+
+#newSchedule {
+}
+
+#searchItems {
+  display: flex;
+  width: 100%;
+}
+
+.geralInput {
+  width: 50%;
+  padding: 1%;
+}
+
+#datepicker {
+}
+
+#name {
+}
+
+.inputfield {
+  width: 85%;
+}
+
+.inputbutton {
+  width: 15%;
+  white-space: normal;
+}
+
+#spinner {
+  display: flex;
+  justify-content: center;
+  margin: 0.5%;
+}
+
+#table {
+  margin-top: 0.5%;
+  padding: 1%;
+}
+
+#pagination {
+  margin: 1% 0;
+  padding-top: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 720px) {
+  #searchItems {
+    flex-direction: column;
   }
 
   #buttondiv {
-    display: grid;
+    justify-content: center;
     margin: 0.25%;
-
-    justify-content: end;
-
   }
 
   #newSchedule {
-
-  }
-
-  #searchItems {
-    display: flex;
-    width: 100%;
-    border: solid black;
+    width: 98vw;
   }
 
   .geralInput {
-    border: solid red;
-    width: 50%;
-    padding: 1%;
-  }
-
-  #datepicker {
-    border: solid blue;
-  }
-
-  #name {
-    border: solid green;
+    width: 100%;
   }
 
   .inputfield {
-    width: 85%;
+    width: 74%;
   }
 
   .inputbutton {
-    width: 15%;
-    white-space: normal;
+    width: 26%;
   }
-
-  #table {
-    border: solid darkslategray;
-    margin-top: 0.5%;
-    padding: 1%;
-  }
-
-  #pagination {
-    margin: 1% 0%;
-    padding-top: 1%;
-    border: solid black;
-    display: flex;
-    justify-content: center;
-  }
-
-  @media screen and (max-width: 720px) {
-    #searchItems{
-      flex-direction: column;
-    }
-    #buttondiv {
-      justify-content: center;
-    }
-    #newSchedule {
-      width: 95vw;
-    }
-    .geralInput{
-      width: 100%;
-    }
-    .inputfield {
-      width: 74%;
-    }
-    .inputbutton {
-      width: 26%;
-    }
-  }
+}
 
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div id="main">
-    <b-form @submit="onSubmit" @reset="onReset">
+  <h1>{{isFromEdit ? 'Editar Paciente' : 'Cadastrar Paciente'}}</h1>
+    <b-form @submit="submitForm" @reset="cleanForm">
 
       <b-form-group
           id="input-group-1"
@@ -54,19 +55,22 @@
       </b-form-group>
 
       <b-form-group
-          id="input-group-5"
+          id="datepicker-group"
           label="Data de Nascimento:"
-          label-for="input-5">
-        <b-form-input
-            id="input-5"
+          label-for="datepicker">
+        <b-form-datepicker
+            id="datepicker"
             v-model="form.birthdate"
-            type="date"
+            locale="pt"
+            placeholder="Selecione um data"
             required
-        ></b-form-input>
+        ></b-form-datepicker>
       </b-form-group>
       <div id="buttons">
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
+        <b-button class="bbutton" type="submit" variant="primary">Submit</b-button>
+        <b-button class="bbutton" type="reset">Reset</b-button>
+        <b-button class="bbutton" @click="deletePerson" variant="outline-danger">Excluir</b-button>
+
       </div>
     </b-form>
   </div>
@@ -74,7 +78,9 @@
 </template>
 
 <script>
-import store from "./vuex";
+import store from "../vuex-store";
+import PatientService from "../services/PatientService";
+import {mapState} from "vuex";
 
 export default {
   name: "PatientRegister",
@@ -89,10 +95,17 @@ export default {
         address: '',
         birthdate: '',
       },
+      patient: {
+        name: "maicon",
+        phone: "4891912121",
+        email: "jacinto@leite.com",
+        address: "rua qualquer",
+        birthdate: "2007-02-07"
+      }
     }
   },
   created() {
-    if (store.state.fromEdit) {
+    if (store.state.isFromEdit) {
       this.form.id = store.state.patient.id
       this.form.name = store.state.patient.name
       this.form.phone = store.state.patient.phone
@@ -101,27 +114,35 @@ export default {
       this.form.birthdate = store.state.patient.birthdate
     }
   },
-  methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      if (store.state.fromEdit) {
-        //put pra editar
-      } else {
-        //post pra cadastrar
-      }
-      alert(JSON.stringify(this.form)) //teste do formato de envio
-    },
-    onReset(event) {
-      event.preventDefault()
-      store.state.fromEdit = false
-      store.state.patient = null
+  computed: {
+    ...mapState(['isFromEdit'])
+  },
 
-      this.form.id = 0
+  methods: {
+    submitForm(event) {
+      event.preventDefault()
+      if (store.state.isFromEdit) {
+        if(confirm('Tem certeza que quer continar? \n Essa Ação não pode ser desfeita')){
+          PatientService.update(this.form)
+          this.cleanForm()
+        } else alert('cancelado')
+      } else PatientService.insert(this.form)
+    },
+    cleanForm() {
+      store.state.isFromEdit = false
+      store.state.patient = {}
+
+      this.form.id = null
       this.form.name = ''
       this.form.email = ''
       this.form.phone = ''
       this.form.address = ''
       this.form.birthdate = null
+    },
+    deletePerson() {
+      alert('Tem certeza disso? \n \n Essa ação não pode ser desfeita!')
+      PatientService.delete(this.form.id)
+      this.cleanForm()
     }
   }
 }
@@ -135,6 +156,9 @@ export default {
 #buttons {
   display: flex;
   justify-content: center;
+}
+.bbutton {
+  margin: 2px;
 }
 </style>
 

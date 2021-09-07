@@ -1,18 +1,37 @@
 <template>
   <div>
     <b-input-group size="lg">
-      <b-form-input v-model="fieldName" placeholder="Nome do Paciente"></b-form-input>
-      <b-button @click="searchClicked" variant="info">Pesquisar</b-button>
+      <b-form-input
+          v-model="fieldName"
+          @keypress.enter="findPatient"
+          placeholder="Nome do Paciente">
+      </b-form-input>
+      <b-button
+          @click="findPatient"
+          variant="info">
+        Pesquisar
+      </b-button>
     </b-input-group>
 
-  <PersonTable :fields="fields" :items="patients" edit-route="/registerpatient" />
+  <PersonTable
+      @pageChanged="findPatientFromPagination"
+      :fields="fields"
+      :per-page="patientPage.numberOfElements"
+      :items="patientPage.content"
+      :totalpages="patientPage.totalPages"
+      :totalelements="patientPage.numberOfElements"
+      :is-list-empty="patientPage.empty"
+      :is-from-doctor="false"
+      edit-route="/registerpatient"
+  />
   </div>
-
 </template>
 
 <script>
-import PersonTable from "@/components/PersonTable";
-import axios from "axios";
+import PersonTable from "../components/PersonTable";
+import PatientService from "../services/PatientService";
+import store from "../vuex-store";
+import {mapState} from "vuex";
 
 export default {
   name: "PatientSearch",
@@ -23,8 +42,14 @@ export default {
 
   data() {
     return {
+      isListEmpty: false,
       fieldName: '',
       fields: [
+        {
+          key: 'show_details',
+          label: ''
+        },
+
         {
           key: 'name',
           label: 'Nome',
@@ -50,54 +75,31 @@ export default {
           label: 'Data de Nascimento',
           sortable: false
         },
-        'show_details'
       ],
-      patients: [
-          //lista de testes
-        {
-          id: 1,
-          name: 'searchPatientantonio',
-          birthdate: '1997-12-03',
-          phone: '(48)99170-6401',
-          email: 'antonio@email.com',
-          address: 'minha ruaminha ruaminha ruaminha ruaminha ruaminha rua'
-        },
-        {
-          id: 2,
-          name: 'searchPatientantonio1',
-          birthdate: '1997-12-04',
-          phone: '(48)99170-6401',
-          email: 'antonio@email.com',
-          address: 'minha ruaminha ruaminha ruaminha ruaminha ruaminha rua'
-        },
-        {
-          id: 3,
-          name: 'searchPatientantonio2',
-          birthdate: '1997-12-05',
-          phone: '(48)99170-6401',
-          email: 'antonio@email.com',
-          address: 'minha ruaminha ruaminha ruaminha ruaminha ruaminha rua'
-        },
-        {
-          id: 4,
-          name: 'searchPatientantonio3',
-          birthdate: '1997-12-06',
-          phone: '(48)99170-6401',
-          email: 'antonio@email.com',
-          address: 'minha ruaminha ruaminha ruaminha ruaminha ruaminha rua'
-        }
-      ]
+      pageComponent: 1
     }
   },
+  mounted() {
+    //this.stopLoading()
+  },
+  computed:
+      mapState ([
+        'patientPage'
+        ]),
 
   methods: {
-    async searchClicked() {
-      this.showTable = !this.showTable
-      await axios.get('http://localhost:8081/patient/' + this.fieldName)
-          .then(function (response) {
-            this.patients = response
-          })
-          .catch(window.alert('Api sem resposta'))
+    findPatient() {
+      this.$store.state.pageComponentStore = 1
+      PatientService.findByName(this.fieldName)
+    },
+    findPatientFromPagination() {
+      console.log('findPatient ' + this.$store.state.patientPageNumber)
+      let objectParam = {page: this.$store.state.patientPageNumber}
+      PatientService.findByName(this.fieldName, objectParam)
+    },
+
+    stopLoading() {
+      setTimeout(() => this.isPersonTableLoading = false, 2000)
     }
   }
 }
@@ -107,4 +109,5 @@ export default {
 div {
   padding: 1%;
 }
+
 </style>
