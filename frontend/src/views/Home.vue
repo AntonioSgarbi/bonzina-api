@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import store from "../vuex";
+import ScheduleService from "../services/ScheduleService"
+import {mapState} from "vuex"
 
 export default {
   name: 'Home',
@@ -44,48 +44,30 @@ export default {
   ],
   data() {
     return {
-      fromDay: 0,
-      fromWeek: 0,
-      fromMonth: 0,
       routeSchedule: '/schedule'
     }
   },
 
   created() {
-    axios.get("http://localhost:8081/scheduling/quantitybydate")
-        .then(response => {
-          this.fromDay = response.data.fromDay
-          this.fromWeek = response.data.fromWeek
-          this.fromMonth = response.data.fromMonth
-        })
-        .catch(e => {
-          console.log('falha no created() Home \ncause: ' + e)
-        })
+    ScheduleService.countByDate()
   },
+
+  computed: mapState({
+    fromDay: state => state.counterSchedule.fromDay,
+    fromWeek: state => state.counterSchedule.fromWeek,
+    fromMonth: state => state.counterSchedule.fromMonth
+  }),
 
   methods: {
     today() {
-      this.request('today')
+      ScheduleService.findByDateToday(null)
     },
     week() {
-      this.request('week')
+      ScheduleService.findByDateWeek(null)
     },
     month() {
-      this.request('month')
+      ScheduleService.findByDateMonth(null)
     },
-    request(param) {
-      axios.get('http://localhost:8081/scheduling/bydate/' + param)
-          .then(response => {
-            store.state.schedulingPages = response.data
-            console.log('reposta pronta')
-          })
-          .catch(e => {
-            console.log('falha no week() Home \ncause: ' + e)
-          })
-          .finally(
-              () => console.log('finally')
-          )
-    }
   }
 }
 </script>
@@ -120,9 +102,7 @@ export default {
 }
 
 .generalclass {
-
   padding: 2% 7.5%;
-  border: solid black;
   justify-content: center;
   text-align: center;
 }
@@ -132,7 +112,6 @@ export default {
 }
 
 #secondary {
-  border: solid blueviolet;
 }
 
 h1 {

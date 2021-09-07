@@ -5,7 +5,8 @@
         title="BootstrapVue"
         button-size="lg"
         @ok="submit"
-        @cancel="cancel">
+        @cancel="cancel"
+        @show="isSchedulingNow = true">
 
       <template #modal-header="{ close }">
         <h3>Cadastrar Consulta</h3>
@@ -46,7 +47,7 @@
             <b-form-datepicker
                 id="datepicker"
                 size="sm"
-                v-model="fieldDate"
+                v-model="date"
                 locale="pt"
                 class="mb-2">
             </b-form-datepicker>
@@ -56,7 +57,7 @@
             <b-form-timepicker
                 id="timepicker"
                 size="sm"
-                v-model:id="fieldTime"
+                v-model:id="scheduled"
                 locale="pt"
                 class="mb-2"></b-form-timepicker>
           </div>
@@ -83,51 +84,65 @@
 <script>
 
 
-import store from "../vuex";
+import ScheduleService from "../services/ScheduleService"
+import {mapGetters, mapState} from "vuex"
+import DoctorService from "../services/DoctorService";
+import PatientService from "../services/PatientService";
 
 export default {
   name: "ScheduleRegister",
-  props: {
-    patientFilled: false,
-    doctorFilled: false,
-  },
   data() {
     return {
-      patient: {
-        name:'nomeComponente' //test
-      },
-      doctor: {
-        name: 'nomeComponente' //test
-      },
-      fieldDate: '',
-      fieldTime: '',
+      date: '',
+      scheduled: '',
     }
   },
-  mounted() {
-    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
-      this.patient = store.state.patient
-      this.doctor = store.state.doctor
-      console.log('evento show capturado e agindo') //test
-    })
 
+  computed: {
+    ...mapState([
+      'patient',
+      'doctor',
+      'patientFilled',
+      'doctorFilled',
+    ]),
+    ...mapGetters({
+      isSchedulingNow: 'isSchedulingNow'
+    }),
+    isSchedulingNow: {
+      get() {
+        return this.$store.state.isSchedulingNow
+      },
+      set(newValue) {
+        return newValue
+      }
+    }
   },
+
   methods: {
-    submit() {
-      console.log('submit' + this.fieldDate +' ' + this.fieldTime)
-      //regra de negocio insert schedule na api
+    submit(e) {
+      if(this.date != '' && this.scheduled != '' && this.patientFilled && this.doctorFilled) {
+        ScheduleService.insert(this.date, this.scheduled, this.doctor, this.patient)
+        this.clean()
+      } else {
+        alert('Todos os campos devem estar preenchidos!')
+        e.preventDefault()
+      }
     },
     cancel() {
-      console.log('cancel')
+      this.clean()
     },
     clean() {
-      this.fieldDate = ''
-      this.fieldTime = ''
-      store.state.patient = {}
-      store.state.doctor = {}
-      console.log('limpo')
+      this.date = ''
+      this.scheduled = ''
+      this.$store.state.patient = {}
+      this.$store.state.doctor = {}
+      this.$store.state.patientFilled = false
+      this.$store.statedoctorFilled = false
     },
     setFromPerson(person) {
-      store.state.fromPerson = person
+      this.$store.state.fromPerson = person
+      if(person === 'fromDoctor') DoctorService.findAll()
+      if(person === 'fromPatient') PatientService.findByName('')
     },
   }
 }

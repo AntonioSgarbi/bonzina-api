@@ -5,43 +5,57 @@ class PatientService {
 
     findAll(params) {
         http.get('/patient', params)
-            .then(response => store.state.patientPage = response.data)
-            .catch()
+            .then(response => {
+                store.state.patientPage = response.data
+                console.log('request status: ' + response.status)
+            })
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     findByName(search, params) {
-        http.get('/patient/' + search, params)
-            .then(response => store.state.patientPage = response.data)
-            .catch()
+        store.state.isPersonTableLoading = true
+        http.get('/patient/' + search, {params})
+            .then(response => {
+                store.state.patientPage = response.data
+                store.state.isPersonTableLoading = false
+                console.log('request status: ' + response.status)
+            })
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     count() {
         http.get('/patient/quantity')
-            .then(response => store.state.patientQuantity = response.data)
-            .catch()
+            .then(response => {
+                store.state.patientQuantity = response.data
+                console.log('request status: ' + response.status)
+            })
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     insert(params) {
         http.post('/patient', params)
             .then(response => console.log(response.data))
-            .catch()
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     update(params) {
         http.put('/patient', params)
             .then(response => console.log(response.data))
-            .catch()
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     delete(id) {
         http.delete('/patient/' + id)
-            .then(response => console.log('paciente deletado: ' + response.status))
-            .catch()
+            .then(response => {
+                alert('paciente deletado!')
+                console.log('request status: ' + response.status)
+            })
+            .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 }
