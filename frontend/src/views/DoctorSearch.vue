@@ -20,8 +20,6 @@
 <script>
 import PersonTable from "../components/PersonTable";
 import DoctorService from "../services/DoctorService";
-import store from "../vuex-store";
-
 
 export default {
   name: "DoctorSearch",
@@ -78,7 +76,7 @@ export default {
   },
   computed: {
     doctorPage() {
-      return store.state.doctorPage
+      return this.$store.state.doctorPage
     }
   },
   methods: {

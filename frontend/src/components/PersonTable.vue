@@ -19,7 +19,7 @@
         id="my-table"
         :items="items"
         :fields="fields"
-        :current-page="this.$store.state.pageComponentStore"
+        :per-page="this.$store.state.patientPage.numberOfElements"
     >
       <template #cell(show_details)="row">
         <b-button
@@ -60,9 +60,9 @@
     <div id="pagination" v-show="!isFromDoctor && !isListEmpty">
       <b-pagination
           pills
-          :per-page="perPage"
           @change="handlePageChange"
-          v-model="pageComponent"
+          v-model="pageComponentLocal"
+          :enabled="!isFromDoctor"
           :total-rows="this.$store.state.patientPage.totalElements"
           :number-of-pages="this.$store.state.patientPage.totalPages"
           aria-controls="my-table"
@@ -76,7 +76,7 @@
 
 <script>
 
-import {mapGetters, mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "PersonTable",
@@ -87,15 +87,7 @@ export default {
 
   props: {
     fields: [],
-    perPage: {
-      type: Number,
-      default: 0
-    },
     items: [],
-    isPersonTableLoading: {
-      type: Number,
-      default: 0
-    },
     isListEmpty: {
       type: Number,
       default: 0
@@ -109,21 +101,11 @@ export default {
   data() {
     return {
       routeToEditPage: '',
+      pageComponentLocal: 1,
     }
   },
   computed: {
-    ...mapState({isSchedulingNow:state => state.isSchedulingNow}),
-    ...mapGetters({
-      pageComponent: 'pageComponentStore'
-    }),
-    pageComponent: {
-      get() {
-        return this.$store.state.pageComponentStore
-      },
-      set(newPage) {
-        return newPage
-      }
-    }
+    ...mapState(['isSchedulingNow', 'isPersonTableLoading']),
   },
 
   methods: {
@@ -149,7 +131,7 @@ export default {
     },
 
     handlePageChange(value) {
-      this.pageComponent = value
+      this.pageComponentLocal = value
       this.$store.state.patientPageNumber = value - 1
       this.$emit('pageChanged')
     },

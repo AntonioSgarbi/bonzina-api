@@ -16,11 +16,9 @@
   <PersonTable
       @pageChanged="findPatientFromPagination"
       :fields="fields"
-      :per-page="patientPage.numberOfElements"
       :items="patientPage.content"
-      :totalpages="patientPage.totalPages"
-      :totalelements="patientPage.numberOfElements"
       :is-list-empty="patientPage.empty"
+      :enabled="true"
       :is-from-doctor="false"
       edit-route="/registerpatient"
   />
@@ -78,27 +76,24 @@ export default {
       pageComponent: 1
     }
   },
-  mounted() {
-    //this.stopLoading()
+
+  computed: {
+    ...mapState([
+      'patientPage'
+    ])
   },
-  computed:
-      mapState ([
-        'patientPage'
-        ]),
 
   methods: {
     findPatient() {
       this.$store.state.pageComponentStore = 1
       PatientService.findByName(this.fieldName)
     },
+
     findPatientFromPagination() {
       let objectParam = {page: this.$store.state.patientPageNumber}
       PatientService.findByName(this.fieldName, objectParam)
     },
 
-    stopLoading() {
-      setTimeout(() => this.isPersonTableLoading = false, 2000)
-    }
   }
 }
 </script>
