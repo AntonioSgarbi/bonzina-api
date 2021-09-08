@@ -6,38 +6,38 @@
         button-size="lg"
         @ok="submit"
         @cancel="cancel"
-        @show="isSchedulingNow = true">
+        @show="verifyStore">
 
       <template #modal-header="{ }">
-        <h3>Cadastrar Consulta</h3>
+        <h3>{{ isSchedulingEditing ? 'Editar' : 'Cadastrar' }} Consulta</h3>
       </template>
 
       <template #default="{ hide }">
         <b-form>
           <div id="patient" class="div">
             <div class="name">
-              <h2>Paciente: {{ patient.name }}</h2>
+              <h2>Paciente: {{ scheduling.patient.name }}</h2>
             </div>
             <div class="btnSwitch">
               <router-link to="/searchpatient">
                 <b-button
                     variant="info"
                     @click="hide(), setFromPerson('fromPatient')">
-                  {{ patientFilled ? 'Trocar' : 'Inserir' }}
+                  {{ isPatientFilled ? 'Trocar' : 'Inserir' }}
                 </b-button>
               </router-link>
             </div>
           </div>
           <div id="doctor" class="div">
             <div class="name">
-              <h2>Médico: {{ doctor.name }}</h2>
+              <h2>Médico: {{ scheduling.doctor.name }}</h2>
             </div>
             <div class="btnSwitch">
               <router-link to="/searchdoctor">
                 <b-button
                     variant="info"
                     @click="hide(), setFromPerson('fromDoctor')">
-                  {{ doctorFilled ? 'Trocar' : 'Inserir' }}
+                  {{ isDoctorFilled ? 'Trocar' : 'Inserir' }}
                 </b-button>
               </router-link>
             </div>
@@ -47,7 +47,7 @@
             <b-form-datepicker
                 id="datepicker"
                 size="sm"
-                v-model="date"
+                v-model="scheduling.date"
                 locale="pt"
                 class="mb-2">
             </b-form-datepicker>
@@ -56,6 +56,7 @@
             <h2 class="labelpicker">Horário: </h2>
             <b-form-timepicker
                 id="timepicker"
+                v-model="scheduling.scheduled"
                 size="sm"
                 locale="pt"
                 class="mb-2"></b-form-timepicker>
@@ -84,7 +85,7 @@
 
 
 import ScheduleService from "../services/ScheduleService"
-import {mapGetters, mapState} from "vuex"
+import { mapMutations, mapState } from "vuex"
 import DoctorService from "../services/DoctorService";
 import PatientService from "../services/PatientService";
 
@@ -101,26 +102,39 @@ export default {
     ...mapState([
       'patient',
       'doctor',
-      'patientFilled',
-      'doctorFilled',
+      'isPatientFilled',
+      'isDoctorFilled',
+      'isSchedulingEditing',
+      'scheduling'
     ]),
-    ...mapGetters({
-      isSchedulingNow: 'isSchedulingNow'
-    }),
-    isSchedulingNow: {
-      get() {
-        return this.$store.state.isSchedulingNow
-      },
-      set(newValue) {
-        return newValue
-      }
-    }
   },
 
   methods: {
+    ...mapMutations([
+       'setPatient',
+       'setDoctor',
+        'resetEditing',
+        'setIsSchedulingNow',
+        'setIsSchedulingEditing'
+    ]),
+
+    verifyStore() {
+      this.setIsSchedulingNow()
+      this.setPatient(this.scheduling.patient)
+      this.setDoctor(this.scheduling.doctor)
+      if(this.isSchedulingEditing) {
+        this.scheduled = this.scheduling.scheduled
+        this.date = this.scheduling.date
+      }
+    },
+
     submit(e) {
-      if(this.date != '' && this.scheduled != '' && this.patientFilled && this.doctorFilled) {
-        ScheduleService.insert(this.date, this.scheduled, this.doctor, this.patient)
+      if(this.scheduling.date !== '' && this.scheduling.scheduled !== '' && this.isPatientFilled && this.isDoctorFilled) {
+        if(this.isSchedulingEditing) {
+          ScheduleService.update(this.scheduling.id , this.scheduling.date, this.scheduling.scheduled, this.scheduling.doctor, this.scheduling.patient)
+        } else {
+          ScheduleService.insert(this.scheduling.date, this.scheduling.scheduled, this.scheduling.doctor, this.scheduling.patient)
+        }
         this.clean()
       } else {
         alert('Todos os campos devem estar preenchidos!')
@@ -133,17 +147,14 @@ export default {
     clean() {
       this.date = ''
       this.scheduled = ''
-      this.$store.state.patient = {}
-      this.$store.state.doctor = {}
-      this.$store.state.patientFilled = false
-      this.$store.statedoctorFilled = false
+      this.resetEditing()
     },
     setFromPerson(person) {
       this.$store.state.fromPerson = person
       if(person === 'fromDoctor') DoctorService.findAll()
       if(person === 'fromPatient') PatientService.findByName('')
     },
-  }
+  },
 }
 </script>
 

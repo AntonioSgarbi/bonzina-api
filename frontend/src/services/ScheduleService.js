@@ -92,17 +92,18 @@ class ScheduleService {
     insert(date, scheduled, doctor, patient) {
         http.post("/scheduling", {date, scheduled, doctor, patient})
             .then(response => {
-                store.state.counterSchedule = response.data
+                alert('Consulta agendada com sucesso!')
                 console.log('request status: ' + response.status)
             })
             .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
-    update(date, scheduled, doctor, patient) {
-        http.put("/scheduling", {date, scheduled, doctor, patient})
+    update(id, date, scheduled, doctor, patient) {
+        console.log('update ativado')
+        http.put("/scheduling", {id, date, scheduled, doctor, patient})
             .then(response => {
-                store.state.counterSchedule = response.data
+                alert('Consulta Editada com sucesso!')
                 console.log('request status: ' + response.status)
             })
             .catch(() =>  console.log('erro na resposta'))
@@ -112,7 +113,7 @@ class ScheduleService {
     delete(id) {
         http.delete("/scheduling/" + id)
             .then(response => {
-                store.state.counterSchedule = response.data
+                alert('Consulta excluída')
                 console.log('request status: ' + response.status)
             })
             .catch(() =>  console.log('erro na resposta'))

@@ -182,28 +182,79 @@ const store = new Vuex.Store({
 
         pageComponentStore: 0,
 
+        scheduling: {
+            id: 0,
+            scheduled: '',
+            date: '',
+            doctor: { name:'' },
+            patient: { name: '' }
+        },
         patient: {name: ''},
         doctor: {name: ''},
 
+        isSchedulingEditing: false,
         isSchedulingNow: false,
 
         isFromEdit: false,
         fromPerson: '', //'fromPatient' || 'fromDoctor'
 
-        patientFilled: false,
-        doctorFilled: false,
+        isPatientFilled: false,
+        isDoctorFilled: false,
 
         isPersonTableLoading: true,
         isScheduleTableLoading: true
 
     },
 
-    getters: {
-        pageComponentStore: (state) => {
-            return state.pageComponentStore;
+    mutations: {
+        setScheduling(state, scheduling) {
+          state.scheduling = scheduling
         },
-        isSchedulingNow: (state) => {
-            return state.isSchedulingNow;
+        setSchedulingDoctor(state, newDoctor) {
+            state.scheduling.doctor = newDoctor
+        },
+        setSchedulingPatient(state, newPatient) {
+            state.scheduling.patient = newPatient
+        },
+        setPatient(state, newPatient) {
+          state.patient = newPatient
+        },
+        setDoctor(state, newDoctor) {
+            state.doctor = newDoctor
+        },
+        resetEditing(state) {
+            state.patient = { name: ''}
+            state.doctor = { name: ''}
+            state.scheduling = {
+                id: 0,
+                scheduled: '',
+                date: '',
+                doctor: { name:'' },
+                patient: { name: '' }
+            }
+            state.fromEdit = false
+            state.isSchedulingNow = false
+            state.isSchedulingEditing = false
+            state.patientFilled = false
+            state.dcotorFilled = false
+        },
+        setIsPatientFilled(state) {
+            state.isPatientFilled = true
+        },
+        setIsDoctorFilled(state) {
+            state.isDoctorFilled = true
+        },
+        setIsSchedulingNow(state) {
+            state.isSchedulingNow = true
+        },
+        setIsSchedulingEditing(state) {
+            state.isSchedulingEditing = true
+        },
+        setIsFromEdit(state) {
+            state.isFromEdit = true
+        },
+        setPageComponentStore(state, number) {
+            state.pageComponentStore = number
         }
     }
 })

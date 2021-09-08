@@ -28,7 +28,7 @@
 <script>
 import PersonTable from "../components/PersonTable";
 import PatientService from "../services/PatientService";
-import {mapState} from "vuex";
+import {mapMutations, mapState} from "vuex";
 
 export default {
   name: "PatientSearch",
@@ -79,18 +79,21 @@ export default {
 
   computed: {
     ...mapState([
-      'patientPage'
+      'patientPage',
+      'patientPageNumber'
     ])
   },
 
   methods: {
+    ...mapMutations(['setPageComponentStore']),
+
     findPatient() {
-      this.$store.state.pageComponentStore = 1
+      this.pageComponentStore(1)
       PatientService.findByName(this.fieldName)
     },
 
     findPatientFromPagination() {
-      let objectParam = {page: this.$store.state.patientPageNumber}
+      let objectParam = {page: this.patientPageNumber}
       PatientService.findByName(this.fieldName, objectParam)
     },
 

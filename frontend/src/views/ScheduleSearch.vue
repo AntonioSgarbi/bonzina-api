@@ -39,7 +39,8 @@
     </div>
 
     <div id="spinner">
-      <b-spinner v-show="isScheduleTableLoading" style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
+      <b-spinner v-show="isScheduleTableLoading" style="width: 3rem; height: 3rem;" variant="primary"
+                 label="Spinning"></b-spinner>
     </div>
 
     <div id="table">
@@ -59,6 +60,39 @@
           :fields="fields"
           :per-page="schedulingPage.numberOfElements"
       >
+        <template #cell(show_details)="row">
+          <b-button
+              size="sm"
+              variant="info"
+              @click="row.toggleDetails"
+              class="mr-2">
+            {{ row.detailsShowing ? 'Cancelar' : 'Opções' }}
+          </b-button>
+        </template>
+
+        <template #row-details="row">
+          <b-card>
+            <b-button
+                v-b-modal.modal
+                size="sm"
+                variant="warning"
+                @click="editSchedule(row.item)"
+                class="mr-2"
+            >
+              Editar
+            </b-button>&nbsp;
+
+            <b-button
+                size="sm"
+                variant="danger"
+                @click="deleteSchedule(row.item)"
+                class="mr-2"
+            >
+              Apagar
+            </b-button>
+
+          </b-card>
+        </template>
       </b-table>
     </div>
     <div id="pagination" v-show="!schedulingPage.empty">
@@ -79,7 +113,7 @@
 
 <script>
 import ScheduleService from "../services/ScheduleService";
-import {mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "Schedule",
@@ -91,6 +125,10 @@ export default {
       pageComponent: 1,
       page: 0,
       fields: [
+        {
+          key: 'show_details',
+          label: ''
+        },
         {
           key: 'date',
           label: 'Data',
@@ -114,6 +152,13 @@ export default {
       mapState(['schedulingPage', 'isScheduleTableLoading']),
 
   methods: {
+    ...mapMutations([
+        'setScheduling',
+        'setIsSchedulingEditing',
+        'setIsDoctorFilled',
+        'setIsPatientFilled'
+    ]),
+
     searchByName(event) {
       event.preventDefault()
       ScheduleService.findByPatientName(this.fieldName)
@@ -125,25 +170,34 @@ export default {
 
     handlePageChange(value) {
       this.pageComponent = value
-      let objectParam ={ page: this.pageComponent - 1}
+      let objectParam = {page: this.pageComponent - 1}
       this.activeMethod(objectParam)
     },
 
     activeMethod(params) {
-      if(this.$store.state.scheduleServiceMethod === 'findByDate') {
+      if (this.$store.state.scheduleServiceMethod === 'findByDate') {
         ScheduleService.findByDate(this.fieldDate, params)
-      }
-      else if (this.$store.state.scheduleServiceMethod === 'findByPatientName') {
+      } else if (this.$store.state.scheduleServiceMethod === 'findByPatientName') {
         ScheduleService.findByPatientName(this.fieldName, params)
-      }
-      else if (this.$store.state.scheduleServiceMethod === 'findByDateToday') {
+      } else if (this.$store.state.scheduleServiceMethod === 'findByDateToday') {
         ScheduleService.findByDateToday(params)
-      }
-      else if (this.$store.state.scheduleServiceMethod === 'findByDateWeek') {
+      } else if (this.$store.state.scheduleServiceMethod === 'findByDateWeek') {
         ScheduleService.findByDateWeek(params)
-      }
-      else {
+      } else {
         ScheduleService.findByDateMonth(params)
+      }
+    },
+
+    editSchedule(item) {
+      this.setScheduling(item)
+      this.setIsSchedulingEditing()
+      this.setIsDoctorFilled()
+      this.setIsPatientFilled()
+    },
+
+    deleteSchedule(item) {
+      if(confirm('Tem certeza que quer continar? \n Essa Ação não pode ser desfeita')) {
+        ScheduleService.delete(item.id)
       }
     },
 

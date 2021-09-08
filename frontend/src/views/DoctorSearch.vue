@@ -79,8 +79,8 @@ export default {
       return this.$store.state.doctorPage
     }
   },
-  methods: {
 
+  methods: {
   }
 }
 

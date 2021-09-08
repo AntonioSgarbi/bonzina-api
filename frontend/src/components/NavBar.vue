@@ -23,18 +23,16 @@
 import ScheduleService from "../services/ScheduleService";
 import DoctorService from "../services/DoctorService";
 import PatientService from "../services/PatientService";
+import { mapMutations } from "vuex"
 
 export default {
   name: 'NavBar',
   methods: {
+    ...mapMutations(['resetEditing']),
+
     reset(entityRoute) {
-      this.$store.state.patient = { name: ''}
-      this.$store.state.doctor = { name: ''}
+      this.resetEditing()
       this.$store.state.fromPerson = entityRoute
-      this.$store.state.fromEdit = false
-      this.$store.state.isSchedulingNow = false
-      this.$store.state.patientFilled = false
-      this.$store.state.dcotorFilled = false
       if(entityRoute === 'fromSchedule') ScheduleService.findByDateToday()
       if(entityRoute === 'fromDoctor') DoctorService.findAll()
       if(entityRoute === 'fromPatient') PatientService.findByName('')

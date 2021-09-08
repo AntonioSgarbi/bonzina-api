@@ -37,14 +37,20 @@ class PatientService {
 
     insert(params) {
         http.post('/patient', params)
-            .then(response => console.log(response.data))
+            .then(response => {
+                console.log(response.data)
+                alert('Cadastrado com sucesso!')
+            })
             .catch(() =>  console.log('erro na resposta'))
             .finally()
     }
 
     update(params) {
         http.put('/patient', params)
-            .then(response => console.log(response.data))
+            .then(response => {
+                console.log(response.data)
+                alert('Editado com sucesso!')
+            })
             .catch(() =>  console.log('erro na resposta'))
             .finally()
     }

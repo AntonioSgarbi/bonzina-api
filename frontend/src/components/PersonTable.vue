@@ -36,7 +36,7 @@
           <b-button
               v-b-modal.modal
               size="sm"
-              variant="info"
+              variant="success"
               @click="toSchedule(row.item)"
               class="mr-2">
             {{ isSchedulingNow ? 'Inserir na consulta' : 'Criar Agendamento' }}
@@ -45,6 +45,7 @@
           <router-link :to="routeToEditPage" custom v-slot="{ navigate }">
             <span @click="navigate" @keypress.enter="navigate" role="link">
               <b-button
+                  variant="warning"
                   size="sm"
                   @click="toEdit(row.item)"
                   class="mr-2"
@@ -76,7 +77,7 @@
 
 <script>
 
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "PersonTable",
@@ -89,12 +90,12 @@ export default {
     fields: [],
     items: [],
     isListEmpty: {
-      type: Number,
-      default: 0
+      type: Boolean,
+      default: false
     },
     isFromDoctor: {
-      type: Number,
-      default: 0
+      type: Boolean,
+      default: false
     },
   },
 
@@ -105,27 +106,53 @@ export default {
     }
   },
   computed: {
-    ...mapState(['isSchedulingNow', 'isPersonTableLoading']),
+    ...mapState([
+      'isSchedulingNow',
+      'isPersonTableLoading',
+      'isSchedulingEditing',
+      'fromPerson'
+    ]),
   },
 
   methods: {
+    ...mapMutations([
+      'setPatient',
+      'setDoctor',
+      'setIsFromEdit',
+      'setIsDoctorFilled',
+      'setIsPatientFilled',
+      'setSchedulingDoctor',
+      'setSchedulingPatient',
+      'setIsPatientFilled',
+      'setIsSchedulingNow',
+    ]),
 
     toSchedule(item) {
-      if (this.$store.state.fromPerson === 'fromPatient') {
-        this.$store.state.patient = item
-        this.$store.state.patientFilled = true
-      } else { //fromDoctor
-        this.$store.state.doctor = item
-        this.$store.state.doctorFilled = true
+      console.log(this.fromPerson)
+      this.setIsSchedulingNow()
+      if (this.fromPerson === 'fromPatient') {
+        this.setIsPatientFilled()
+        this.setSchedulingPatient(item)
+        this.setPatient(item)
+      }
+      else { //fromDoctor
+        this.setIsDoctorFilled()
+        this.setSchedulingDoctor(item)
+        console.log(item)
+        this.setDoctor(item)
       }
     },
     toEdit(item) {
-      this.$store.state.isFromEdit = true
+      this.setIsFromEdit()
       if (this.$store.state.fromPerson === 'fromPatient') {
-        this.$store.state.patient = item
+        console.log('from patient ' + item)
+        console.log(item)
+        this.setPatient(item)
         this.routeToEditPage = 'registerpatient'
       } else { //fromDoctor
-        this.$store.state.doctor = item
+        console.log('from doctor ' + item)
+        console.log(item)
+        this.setDoctor(item)
         this.routeToEditPage = 'registerdoctor'
       }
     },

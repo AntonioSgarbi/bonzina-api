@@ -29,6 +29,7 @@ class DoctorService {
         http.post('/doctor', params)
             .then(response => {
                 console.log(response.data)
+                alert('Cadastrado com sucesso!')
                 console.log('request status: ' + response.status)
             })
             .catch(() =>  console.log('erro na resposta'))
@@ -37,7 +38,10 @@ class DoctorService {
 
     update(params) {
         http.put('/doctor', params)
-            .then(response => console.log(response.data))
+            .then(response => {
+                console.log(response.data)
+                alert('Editado com sucesso!')
+            })
             .catch(() =>  console.log('erro na resposta'))
             .finally()
     }

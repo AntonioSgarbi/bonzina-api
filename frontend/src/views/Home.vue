@@ -53,18 +53,15 @@ export default {
 
   created() {
     ScheduleService.countByDate()
-    console.log(this.isServerOn)
   },
 
-  computed:{
+  computed: {
     ...mapState({
-    fromDay: state => state.counterSchedule.fromDay,
-    fromWeek: state => state.counterSchedule.fromWeek,
-    fromMonth: state => state.counterSchedule.fromMonth,
-  }),
-    isServerOn() {
-      return this.$store.state.isServeOn
-    }
+      fromDay: state => state.counterSchedule.fromDay,
+      fromWeek: state => state.counterSchedule.fromWeek,
+      fromMonth: state => state.counterSchedule.fromMonth,
+      isServerOn: state => state.isServeOn
+    }),
   },
 
   methods: {
@@ -96,19 +93,19 @@ export default {
 }
 
 @-webkit-keyframes HomeAnimation {
-  0%{background-position:0% 99%}
+  0%{background-position:0 99%}
   50%{background-position:100% 2%}
-  100%{background-position:0% 99%}
+  100%{background-position:0 99%}
 }
 @-moz-keyframes HomeAnimation {
-  0%{background-position:0% 99%}
+  0%{background-position:0 99%}
   50%{background-position:100% 2%}
-  100%{background-position:0% 99%}
+  100%{background-position:0 99%}
 }
 @keyframes HomeAnimation {
-  0%{background-position:0% 99%}
+  0%{background-position:0 99%}
   50%{background-position:100% 2%}
-  100%{background-position:0% 99%}
+  100%{background-position:0 99%}
 }
 
 .generalclass {

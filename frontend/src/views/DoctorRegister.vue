@@ -98,9 +98,8 @@
 
 </template>
 <script>
-import store from "../vuex-store";
 import DoctorService from "../services/DoctorService";
-import {mapState} from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "DoctorRegister",
@@ -129,30 +128,41 @@ export default {
     }
 
   },
-  computed: {
-    ...mapState(['isFromEdit'])
+
+  mounted() {
+    if(this.isFromEdit) {
+      this.form = this.doctor
+      if(this.doctor.clinic === "ONE") this.form.clinic = 0
+      if(this.doctor.clinic === "TWO") this.form.clinic = 1
+      if(this.doctor.period === "MORNING") this.form.period = 0
+      if(this.doctor.period === "AFTERNOON") this.form.period = 1
+    }
   },
+
+  computed: {
+    ...mapState(['isFromEdit', 'doctor'])
+  },
+
   methods: {
-    submitForm(event) {
-      event.preventDefault()
-      if (store.state.isFromEdit) {
+    ...mapMutations(['resetEditing', ]),
+    submitForm(e) {
+      e.preventDefault()
+      if (this.isFromEdit) {
         if(confirm('Tem certeza que quer continar? \n Essa Ação não pode ser desfeita')){
           DoctorService.update(this.form)
           this.cleanForm()
         } else alert('cancelado')
       } else DoctorService.insert(this.form)
     },
-    cleanForm() {
-      store.state.isFromEdit = false
-      store.state.doctor = {}
 
+    cleanForm() {
       this.form.id = null
       this.form.name = ''
       this.form.email = ''
       this.form.phone = ''
       this.form.register = ''
       this.form.speciality = ''
-      this.form.clinic = null,
+      this.form.clinic = null
       this.form.period = null
     },
     deletePerson() {
