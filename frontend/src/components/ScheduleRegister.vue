@@ -8,7 +8,7 @@
         @cancel="cancel"
         @show="isSchedulingNow = true">
 
-      <template #modal-header="{ close }">
+      <template #modal-header="{ }">
         <h3>Cadastrar Consulta</h3>
       </template>
 
@@ -57,14 +57,13 @@
             <b-form-timepicker
                 id="timepicker"
                 size="sm"
-                v-model:id="scheduled"
                 locale="pt"
                 class="mb-2"></b-form-timepicker>
           </div>
         </b-form>
       </template>
 
-      <template #modal-footer="{ ok, cancel, hide }">
+      <template #modal-footer="{ ok, cancel }">
       <div id="btnAction">
         <b-button size="lg" variant="outline-success" @click="ok()" >
           Agendar

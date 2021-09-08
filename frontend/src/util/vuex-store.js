@@ -6,7 +6,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        isServeOn: false,
         counterSchedule: {
             fromDay: 0,
             fromWeek: 0,

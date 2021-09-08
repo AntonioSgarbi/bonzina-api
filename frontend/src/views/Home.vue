@@ -1,13 +1,16 @@
 <template>
   <div id="background-animation">
     <div class="generalclass">
-      <div id="primary" class="generalclass">
+      <div v-show="isServerOn" id="primary" class="generalclass">
         <h1>
           Consultas agendadas
         </h1>
       </div>
-
-      <div id="secondary" class="generalclass">
+      <div  v-show="!isServerOn">
+        <h2>Servidor Carregando, aguarde {{isServerOn}}</h2>
+        <b-spinner style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
+      </div>
+      <div v-show="isServerOn" id="secondary" class="generalclass">
         <h1>
           <router-link :to="routeSchedule" custom v-slot="{ navigate }">
           <span @click="navigate" @keypress.enter="navigate" role="link">
@@ -50,13 +53,19 @@ export default {
 
   created() {
     ScheduleService.countByDate()
+    console.log(this.isServerOn)
   },
 
-  computed: mapState({
+  computed:{
+    ...mapState({
     fromDay: state => state.counterSchedule.fromDay,
     fromWeek: state => state.counterSchedule.fromWeek,
-    fromMonth: state => state.counterSchedule.fromMonth
+    fromMonth: state => state.counterSchedule.fromMonth,
   }),
+    isServerOn() {
+      return this.$store.state.isServeOn
+    }
+  },
 
   methods: {
     today() {
@@ -68,6 +77,7 @@ export default {
     month() {
       ScheduleService.findByDateMonth(null)
     },
+
   }
 }
 </script>

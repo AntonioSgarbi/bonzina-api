@@ -30,7 +30,6 @@
 <script>
 import PersonTable from "../components/PersonTable";
 import PatientService from "../services/PatientService";
-import store from "../vuex-store";
 import {mapState} from "vuex";
 
 export default {
@@ -93,7 +92,6 @@ export default {
       PatientService.findByName(this.fieldName)
     },
     findPatientFromPagination() {
-      console.log('findPatient ' + this.$store.state.patientPageNumber)
       let objectParam = {page: this.$store.state.patientPageNumber}
       PatientService.findByName(this.fieldName, objectParam)
     },

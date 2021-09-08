@@ -87,11 +87,23 @@ export default {
 
   props: {
     fields: [],
-    perPage: 0,
+    perPage: {
+      type: Number,
+      default: 0
+    },
     items: [],
-    isPersonTableLoading: true,
-    isListEmpty: false,
-    isFromDoctor: true,
+    isPersonTableLoading: {
+      type: Number,
+      default: 0
+    },
+    isListEmpty: {
+      type: Number,
+      default: 0
+    },
+    isFromDoctor: {
+      type: Number,
+      default: 0
+    },
   },
 
   data() {
@@ -137,10 +149,8 @@ export default {
     },
 
     handlePageChange(value) {
-      console.log(this.$store.state.patientPage.totalPages)
       this.pageComponent = value
       this.$store.state.patientPageNumber = value - 1
-      console.log('value ' + value + ' patientPageNumber ' + this.$store.state.patientPageNumber)
       this.$emit('pageChanged')
     },
   }

@@ -83,6 +83,7 @@ class ScheduleService {
             .then(response => {
                 store.state.counterSchedule = response.data
                 console.log('request status: ' + response.status)
+                store.state.isServeOn = true
             })
             .catch(() =>  console.log('erro na resposta'))
             .finally()

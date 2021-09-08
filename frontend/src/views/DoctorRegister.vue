@@ -99,7 +99,6 @@
 </template>
 <script>
 import store from "../vuex-store";
-import PatientService from "../services/PatientService";
 import DoctorService from "../services/DoctorService";
 import {mapState} from "vuex";
 
