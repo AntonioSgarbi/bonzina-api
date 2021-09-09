@@ -1,4 +1,13 @@
 # Backend
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=ncloc)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=security_rating)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=bugs)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=code_smells)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+[![Sqale_Index](https://sonarcloud.io/api/project_badges/measure?project=AntonioSgarbi_bonzina-api&metric=sqale_index)](https://sonarcloud.io/dashboard?id=AntonioSgarbi_bonzina-api)
+
 
 #
 
