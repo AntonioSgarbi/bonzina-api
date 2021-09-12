@@ -9,14 +9,16 @@
           <b-form-datepicker
               class="inputfield"
               v-model="fieldDate"
-              menu-class="w-100"
               calendar-width="100%"
+              locale="pt"
+              placeholder="Selecione uma data"
           ></b-form-datepicker>
           <b-button
               @click="searchByDate"
               class="inputbutton"
               variant="info"
-              text-center>Pesquisar
+              text-center
+          >Pesquisar
           </b-button>
         </b-form>
       </div>

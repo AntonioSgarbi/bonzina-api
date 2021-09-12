@@ -7,26 +7,26 @@
         </h1>
       </div>
       <div  v-show="!isServerOn">
-        <h2>Servidor Carregando, aguarde {{isServerOn}}</h2>
+        <h2>Servidor Carregando, aguarde...</h2>
         <b-spinner style="width: 3rem; height: 3rem;" variant="primary" label="Spinning"></b-spinner>
       </div>
       <div v-show="isServerOn" id="secondary" class="generalclass">
         <h1>
           <router-link :to="routeSchedule" custom v-slot="{ navigate }">
           <span @click="navigate" @keypress.enter="navigate" role="link">
-            <b-badge id="badge" @click="today">hoje:{{ fromDay }}</b-badge>&nbsp;
+            <b-badge v-b-tooltip.hover title="Selecione" id="badge" @click="today">hoje:{{ fromDay }}</b-badge>&nbsp;
           </span>
           </router-link>
 
           <router-link :to="routeSchedule" custom v-slot="{ navigate }">
           <span @click="navigate" @keypress.enter="navigate" role="link">
-          <b-badge id="badge" @click='week'>essa semana:{{ fromWeek }}</b-badge>&nbsp;
+          <b-badge v-b-tooltip.hover title="Selecione" id="badge" @click='week'>essa semana:{{ fromWeek }}</b-badge>&nbsp;
           </span>
           </router-link>
 
           <router-link :to="routeSchedule" custom v-slot="{ navigate }">
           <span @click="navigate" @keypress.enter="navigate" role="link">
-            <b-badge id="badge" @click='month'>esse mês:{{ fromMonth }}</b-badge>
+            <b-badge v-b-tooltip.hover title="Selecione" id="badge" @click='month'>esse mês:{{ fromMonth }}</b-badge>
           </span>
           </router-link>
         </h1>
@@ -82,7 +82,7 @@ export default {
 <style scoped>
 
 #background-animation {
-  height: 100vh;
+  height: 88.5vh;
   background: linear-gradient(218deg, #5dc558, #5fb0f2, #f924c2, #03dba3, #c5e322);
   background-size: 1000% 1000%;
 

@@ -36,7 +36,8 @@
               <router-link to="/searchdoctor">
                 <b-button
                     variant="info"
-                    @click="hide(), setFromPerson('fromDoctor')">
+                    @click="hide(), setFromPerson('fromDoctor')"
+                >
                   {{ isDoctorFilled ? 'Trocar' : 'Inserir' }}
                 </b-button>
               </router-link>
@@ -49,8 +50,9 @@
                 size="sm"
                 v-model="scheduling.date"
                 locale="pt"
-                class="mb-2">
-            </b-form-datepicker>
+                placeholder="Selecione uma data"
+                class="mb-2"
+            ></b-form-datepicker>
           </div>
           <div class="div">
             <h2 class="labelpicker">Horário: </h2>
@@ -59,7 +61,9 @@
                 v-model="scheduling.scheduled"
                 size="sm"
                 locale="pt"
-                class="mb-2"></b-form-timepicker>
+                placeholder="Selecione um horário"
+                class="mb-2"
+            ></b-form-timepicker>
           </div>
         </b-form>
       </template>
@@ -160,12 +164,13 @@ export default {
 
 <style scoped>
 .div {
+  background-color: #ccffee;
   display: flex;
   width: 100%;
   align-items: center;
   margin-bottom: 1%;
   padding: 0.5%;
-  border: dashed black;
+  border-radius: 5px;
 }
 
 .name {
