@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.antoniosgarbi.entities.Scheduling;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class SchedulingDTO {
 

@@ -32,10 +32,11 @@ public class DoctorController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<DoctorDTO> insert(@RequestBody DoctorDTO dto) {
+	public ResponseEntity<DoctorDTO> insert(@RequestBody DoctorDTO body) {
+		DoctorDTO dto = service.insert(body);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(service.insert(dto));
+		return ResponseEntity.created(uri).body(dto);
 	}
 	
 	@PutMapping
