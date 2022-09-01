@@ -26,18 +26,18 @@ public class SchedulingService {
     public Page<SchedulingDTO> findAll(Pageable pageable) {
         Page<Scheduling> pageEntity = repository.findAll(pageable);
         return pageEntity
-                .map(x -> new SchedulingDTO(x, true));
+                .map(SchedulingDTO::new);
     }
 
     public Page<SchedulingDTO> findByPatientName(String name, Pageable pageable) {
         Page<Scheduling> pageEntity = repository.findAllByPatientNameContainingIgnoreCase(name, pageable);
-        return pageEntity.map(x -> new SchedulingDTO(x, true));
+        return pageEntity.map(SchedulingDTO::new);
     }
 
     public Page<SchedulingDTO> findByDate(String dateString, Pageable pageable) {
         LocalDate date = LocalDate.parse(dateString);
         Page<Scheduling> pageEntity = repository.findAllByDate(date,pageable);
-        return pageEntity.map(x -> new SchedulingDTO(x, true));
+        return pageEntity.map(SchedulingDTO::new);
     }
 
     public Page<SchedulingDTO> findByDateToday(Pageable pageable) {
@@ -46,8 +46,7 @@ public class SchedulingService {
                         LocalDate.now(),
                         pageable
                 );
-        return pageEntity
-                .map(x -> new SchedulingDTO(x, true));
+        return pageEntity.map(SchedulingDTO::new);
     }
 
     public Page<SchedulingDTO> findByDateThisWeek(Pageable pageable) {
@@ -59,7 +58,7 @@ public class SchedulingService {
                         pageable
                 );
         return pageEntity
-                .map(x -> new SchedulingDTO(x, true));
+                .map(SchedulingDTO::new);
     }
 
     public Page<SchedulingDTO> findByDateThisMonth(Pageable pageable) {
@@ -71,7 +70,7 @@ public class SchedulingService {
                         pageable
                 );
         return pageEntity
-                .map(x -> new SchedulingDTO(x, true));
+                .map(SchedulingDTO::new);
     }
 
     @Transactional
@@ -84,7 +83,7 @@ public class SchedulingService {
                 new Patient(dto.getPatient())
         );
         entity = repository.save(entity);
-        return new SchedulingDTO(entity, true);
+        return new SchedulingDTO(entity);
     }
 
     @Transactional
@@ -105,7 +104,7 @@ public class SchedulingService {
                 dto.getScheduled(),
                 doctor,
                 patient);
-        return new SchedulingDTO(entity, true);
+        return new SchedulingDTO(entity);
     }
 
     @Transactional

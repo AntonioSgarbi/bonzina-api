@@ -17,8 +17,7 @@ public class DoctorDTO {
 	private String speciality;
 	private Clinic clinic;
 	private Period period;
-	private List<SchedulingDTO> schedulings;
-	
+
 	public DoctorDTO() {
 	}
 
@@ -36,7 +35,7 @@ public class DoctorDTO {
 		this.period = period;
 	}
 	
-	public DoctorDTO(Doctor entity, boolean request) {
+	public DoctorDTO(Doctor entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.phone = entity.getPhone();
@@ -45,11 +44,6 @@ public class DoctorDTO {
 		this.speciality = entity.getSpeciality();
 		this.clinic = entity.getClinic();
 		this.period = entity.getPeriod();
-		if(request) {
-			this.schedulings = entity.getSchedulings().stream()
-					.map(x -> new SchedulingDTO(x, !request)).collect(Collectors.toList());
-		}
-
 	}
 
 	public Integer getId() {
@@ -116,7 +110,4 @@ public class DoctorDTO {
 		this.period = period;
 	}
 
-	public List<SchedulingDTO> getSchedulings() {
-		return schedulings;
-	}
 }

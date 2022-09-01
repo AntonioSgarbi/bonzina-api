@@ -7,25 +7,13 @@ public class CalcDate {
 
     private final LocalDate date;
 
-    private final int dayOfWeek;
-    private final int dayOfMonth;
     private int month;
     private int year;
 
     private int daysPassedSinceWeekStarted;
     private int daysLeftToEndWeek;
 
-    private final int daysLeftToTheEndOfMonth;
     private final int lastDayOfMonth;
-
-    private final int dayWeekStarts;
-    private final int dayWeekEnds;
-
-    private int monthWeekStarts;
-    private int monthWeekEnds;
-
-    private int yearWeekStarts;
-    private int yearWeekEnds;
 
     private final LocalDate dateWeekStarts;
     private final LocalDate dateWeekEnds;
@@ -36,19 +24,21 @@ public class CalcDate {
 
         month = date.getMonth().getValue();
         year = date.getYear();
-        dayOfWeek = date.getDayOfWeek().getValue();
-        dayOfMonth = date.getDayOfMonth();
+        int dayOfWeek = date.getDayOfWeek().getValue();
+        int dayOfMonth = date.getDayOfMonth();
         lastDayOfMonth = returnLastDayOfMonth(month, year);
 
-        daysLeftToTheEndOfMonth = lastDayOfMonth - dayOfMonth;
+        int daysLeftToTheEndOfMonth = lastDayOfMonth - dayOfMonth;
 
         setDaysPassedFromMondayAndLeftToSaturday(dayOfWeek);
 
-        monthWeekStarts = month;
-        monthWeekEnds = month;
-        yearWeekStarts = year;
-        yearWeekEnds = year;
+        int monthWeekStarts = month;
+        int monthWeekEnds = month;
+        int yearWeekStarts = year;
+        int yearWeekEnds = year;
 
+        int dayWeekStarts;
+        int dayWeekEnds;
         if(daysLeftToTheEndOfMonth == 0) {
             dayWeekStarts = dayOfMonth - daysPassedSinceWeekStarted;
             dayWeekEnds = daysLeftToEndWeek;
@@ -101,34 +91,34 @@ public class CalcDate {
 
     private void setDaysPassedFromMondayAndLeftToSaturday(int dayOfWeek) {
         switch (dayOfWeek) {
-            case 1 : //DayOfWeek.ENUM starts at monday with 1
+            case 1 -> { //DayOfWeek.ENUM starts at monday with 1
                 daysPassedSinceWeekStarted = 1;
                 daysLeftToEndWeek = 5;
-                break;
-            case 2 :
+            }
+            case 2 -> {
                 daysPassedSinceWeekStarted = 2;
                 daysLeftToEndWeek = 4;
-                break;
-            case 3 :
+            }
+            case 3 -> {
                 daysPassedSinceWeekStarted = 3;
                 daysLeftToEndWeek = 3;
-                break;
-            case 4 :
+            }
+            case 4 -> {
                 daysPassedSinceWeekStarted = 4;
                 daysLeftToEndWeek = 2;
-                break;
-            case 5 :
+            }
+            case 5 -> {
                 daysPassedSinceWeekStarted = 5;
                 daysLeftToEndWeek = 1;
-                break;
-            case 6 :
+            }
+            case 6 -> {
                 daysPassedSinceWeekStarted = 6;
                 daysLeftToEndWeek = 0;
-                break;
-            case 7 :
+            }
+            case 7 -> {
                 daysPassedSinceWeekStarted = 0;
                 daysLeftToEndWeek = 6;
-                break;
+            }
         }
     }
 

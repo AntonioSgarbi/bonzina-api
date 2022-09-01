@@ -14,8 +14,7 @@ public class BonzinaApiApplication {
 
 	@Bean
 	public Argon2PasswordEncoder getPasswordEncoder() {
-		Argon2PasswordEncoder encoder = new Argon2PasswordEncoder();
-		return encoder;
+		return new Argon2PasswordEncoder();
 	}
 
 }

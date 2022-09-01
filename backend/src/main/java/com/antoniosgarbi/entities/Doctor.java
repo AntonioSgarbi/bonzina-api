@@ -1,5 +1,6 @@
 package com.antoniosgarbi.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.antoniosgarbi.entities.enums.Period;
 @Entity
 @Table(name = "tb_doctor")
 public class Doctor implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 5322991030176876251L;
 	
 	@Id
@@ -36,13 +38,6 @@ public class Doctor implements Serializable {
 	@NotNull(message = "The period must be informed")
 	private Period period;
 
-
-	@OneToMany(
-			mappedBy = "doctor",
-			cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	private List<Scheduling> schedulings = new ArrayList<>();
-	
 	public Doctor() {
 	}
 	
@@ -132,10 +127,6 @@ public class Doctor implements Serializable {
 
 	public void setPeriod(Period period) {
 		this.period = period;
-	}
-
-	public List<Scheduling> getSchedulings() {
-		return schedulings;
 	}
 
 	@Override

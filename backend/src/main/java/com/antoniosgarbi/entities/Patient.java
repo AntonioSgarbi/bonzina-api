@@ -2,6 +2,7 @@ package com.antoniosgarbi.entities;
 
 import com.antoniosgarbi.dto.PatientDTO;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Past;
 @Entity
 @Table(name = "tb_patient")
 public class Patient implements Serializable {
+	@Serial
 	private static final long serialVersionUID = 5719278450261503359L;
 	
 	@Id
@@ -32,12 +34,6 @@ public class Patient implements Serializable {
 	@NotNull(message = "The birthdate must be informed")
 	@Past(message = "The birthdate must be in the past")
 	private LocalDate birthdate;
-	
-	@OneToMany(
-			mappedBy = "patient",
-			cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
-			fetch = FetchType.EAGER)
-	private List<Scheduling> schedulings = new ArrayList<>();
 
 	public Patient() {
 	}
@@ -107,10 +103,6 @@ public class Patient implements Serializable {
 
 	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
-	}
-
-	public List<Scheduling> getSchedulings() {
-		return schedulings;
 	}
 
 	@Override

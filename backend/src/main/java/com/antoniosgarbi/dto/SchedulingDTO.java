@@ -7,73 +7,70 @@ import com.antoniosgarbi.entities.Scheduling;
 
 public class SchedulingDTO {
 
-	private Integer id;
-	private LocalDate date;
-	private LocalTime scheduled;
-	private DoctorDTO doctor;
-	private PatientDTO patient;
+    private Integer id;
+    private LocalDate date;
+    private LocalTime scheduled;
+    private DoctorDTO doctor;
+    private PatientDTO patient;
 
-	public SchedulingDTO() {
-	}
-	
-	public SchedulingDTO(Integer id, LocalDate date, 
-			LocalTime scheduled, DoctorDTO doctor, PatientDTO patient) {
-		
-		this.id = id;
-		this.date = date;
-		this.scheduled = scheduled;
-		this.doctor = doctor;
-		this.patient = patient;
-	}
-	
-	public SchedulingDTO(Scheduling entity, boolean request) {
-		this.id = entity.getId();
-		this.date = entity.getDate();
-		this.scheduled = entity.getScheduled();
-		if(request) {
-			this.doctor = new DoctorDTO(entity.getDoctor(), !request);
-			this.patient = new PatientDTO(entity.getPatient(), !request);
-		}
-	}
+    public SchedulingDTO() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public SchedulingDTO(Integer id, LocalDate date,
+                         LocalTime scheduled, DoctorDTO doctor, PatientDTO patient) {
+        this.id = id;
+        this.date = date;
+        this.scheduled = scheduled;
+        this.doctor = doctor;
+        this.patient = patient;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public SchedulingDTO(Scheduling entity) {
+        this.id = entity.getId();
+        this.date = entity.getDate();
+        this.scheduled = entity.getScheduled();
+        this.doctor = new DoctorDTO(entity.getDoctor());
+        this.patient = new PatientDTO(entity.getPatient());
+    }
 
-	public LocalDate getDate() {
-		return date;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public LocalTime getScheduled() {
-		return scheduled;
-	}
+    public LocalDate getDate() {
+        return date;
+    }
 
-	public void setScheduled(LocalTime scheduled) {
-		this.scheduled = scheduled;
-	}
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
-	public DoctorDTO getDoctor() {
-		return doctor;
-	}
+    public LocalTime getScheduled() {
+        return scheduled;
+    }
 
-	public void setDoctor(DoctorDTO doctor) {
-		this.doctor = doctor;
-	}
+    public void setScheduled(LocalTime scheduled) {
+        this.scheduled = scheduled;
+    }
 
-	public PatientDTO getPatient() {
-		return patient;
-	}
+    public DoctorDTO getDoctor() {
+        return doctor;
+    }
 
-	public void setPatient(PatientDTO patient) {
-		this.patient = patient;
-	}
-	
+    public void setDoctor(DoctorDTO doctor) {
+        this.doctor = doctor;
+    }
+
+    public PatientDTO getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientDTO patient) {
+        this.patient = patient;
+    }
+
 }

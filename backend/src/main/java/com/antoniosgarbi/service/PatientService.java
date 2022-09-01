@@ -25,7 +25,7 @@ public class PatientService {
 		Patient entity = new Patient(null, dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
 		entity = repository.save(entity);
-		return new PatientDTO(entity, false);
+		return new PatientDTO(entity);
 	}
 
 	@Transactional
@@ -34,17 +34,17 @@ public class PatientService {
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate());
 		repository.update(dto.getName(), dto.getPhone(),
 				dto.getEmail(), dto.getAddress(), dto.getBirthdate(), dto.getId());
-		return new PatientDTO(entity, false);
+		return new PatientDTO(entity);
 	}
 
 	public Page<PatientDTO> findAll(Pageable pageable) {
 		Page<Patient> page = repository.findAll(pageable);
-		return page.map(x -> new PatientDTO(x, true));
+		return page.map(PatientDTO::new);
 	}
 
 	public Page<PatientDTO> findByName(String name, Pageable pageable) {
 		Page<Patient> page = repository.findByNameContainingIgnoreCase(name, pageable);
-		return page.map(x -> new PatientDTO(x, true));
+		return page.map(PatientDTO::new);
 	}
 
 	@Transactional

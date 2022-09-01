@@ -1,5 +1,6 @@
 package com.antoniosgarbi.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "tb_scheduling")
 public class Scheduling implements Serializable {
+	@Serial
 	private static final long serialVersionUID = -1579027048833977086L;
 
 	@Id
